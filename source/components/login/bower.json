@@ -1,0 +1,21 @@
+{
+  "name": "login-component",
+  "description": "Token-based authentication module for AngularJS using satellizer",
+  "author": "Romain Diegoni",
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.9",
+    "angular-route": "^1.5.9",
+    "flexbox": "*",
+    "font-awesome": "fontawesome#^4.7.0",
+    "angular-toastr": "^2.1.1"
+  }
+}

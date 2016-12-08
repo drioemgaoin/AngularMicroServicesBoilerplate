@@ -1,0 +1,11 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the header of the site/application.
+// -----------------------------------------------------------------------------
+.header {
+    background-image: image('yeoman.png');
+    background-repeat: no-repeat;
+}
+
+.header h1 {
+    margin-left: 100px;
+}

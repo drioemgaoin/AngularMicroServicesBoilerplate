@@ -1,0 +1,18 @@
+{
+  "name": "login-component",
+  "version": "1.0.0",
+  "description": "Token-based authentication module for AngularJS using satellizer",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Romain Diegoni",
+  "license": "ISC",
+  "dependencies": {
+    "satellizer": "0.15.5",
+    "toastr": "2.1.2"
+  },
+  "devDependencies": {
+    "caller-id": "0.1.0",
+    "gulp-main-npm-files": "1.0.3"
+  }
+}

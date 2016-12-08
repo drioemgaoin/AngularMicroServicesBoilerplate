@@ -1,0 +1,29 @@
+{
+  "client": {
+    "build": {
+      "root": "./source/components/login/client",
+      "scripts": "./source/components/login/client/**/*.js",
+      "views": "./source/components/login/client/**/*.html",
+      "styles": "./source/components/login/client/**/*.scss",
+      "images": "./source/components/login/client/**/*.{jpg,jpeg,png,gif}"
+    },
+    "deployment": {
+      "root": "./dist/client",
+      "scripts": "./dist/client/scripts",
+      "views": "./dist/client/views/login",
+      "styles": "./dist/client/css",
+      "fonts": "./dist/client/fonts",
+      "images": "./dist/client/images"
+    }
+  },
+  "server": {
+    "build": {
+      "root": "./source/components/login/server",
+      "scripts": "./source/components/login/server/**/*.js"
+    },
+    "deployment": {
+      "root": "./dist/server",
+      "scripts": "./dist/server/scripts"
+    }
+  }
+}

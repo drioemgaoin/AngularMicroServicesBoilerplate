@@ -1,0 +1,23 @@
+{
+  "name": "angular-node-boilerplate",
+  "description": "Boilerplate with Angularjs and Nodejs",
+  "main": "app.js",
+  "authors": [
+    "Romain Diegoni"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.9",
+    "angular-route": "^1.5.9",
+    "flexbox": "*",
+    "font-awesome": "fontawesome#^4.7.0"
+  }
+}

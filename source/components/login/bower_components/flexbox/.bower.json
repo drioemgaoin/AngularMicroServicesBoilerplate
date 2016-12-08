@@ -1,0 +1,26 @@
+{
+  "name": "flexbox",
+  "homepage": "https://github.com/johnotander/flexbox",
+  "authors": [
+    "John Otander <johnotander@gmail.com>"
+  ],
+  "description": "A miniature CSS3 flexbox grid.",
+  "keywords": [
+    "css3",
+    "css",
+    "flexbox",
+    "flex",
+    "grid",
+    "lightweight"
+  ],
+  "license": "MIT",
+  "_release": "baa99cdb1a",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "baa99cdb1a501f2e7a8badc7872376ce68a26e50"
+  },
+  "_source": "https://github.com/johnotander/flexbox.git",
+  "_target": "*",
+  "_originalSource": "flexbox"
+}

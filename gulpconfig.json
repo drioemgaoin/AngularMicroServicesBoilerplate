@@ -1,0 +1,36 @@
+{
+    "client": {
+      "build": {
+        "scripts": ["./source/**/*.js", "!./source/components/**/*.js", "!./source/componentManager.js"],
+        "views": ["./source/**/*.html", "!./source/components/**/*.html"],
+        "styles": ["./source/**/*.scss", "!./source/components/**/*.scss"],
+        "images": "./source/**/*.{jpg,jpeg,png,gif}"
+      },
+      "deployment": {
+        "root": "./dist/client",
+        "scripts": "./dist/client/scripts",
+        "views": "./dist/client/views",
+        "styles": "./dist/client/css",
+        "fonts": "./dist/client/fonts",
+        "images": "./dist/client/images"
+      }
+    },
+    "server": {
+      "build": {
+        "scripts": "./source/**/*.js"
+      },
+      "deployment": {
+        "root": "./dist/server",
+        "scripts": "./dist/server/scripts"
+      }
+    },
+    "bower": "./bower.json",
+    "bowerOverrides": {
+        "font-awesome": {
+          "main": [
+            "./scss/font-awesome.scss",
+            "./fonts/*"
+          ]
+        }
+    }
+}

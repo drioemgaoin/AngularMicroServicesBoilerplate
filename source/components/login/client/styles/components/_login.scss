@@ -1,0 +1,80 @@
+.login {
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    display: flex;
+    align-self: center;
+  }
+
+  .other-account {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+
+    button {
+      height: 50px;
+      width: 300px;
+      border-style: none;
+      border-radius: 3px;
+
+      &.facebook {
+          background: #3b5998;
+          color: #fff;
+      }
+
+      &.google {
+          margin-top: 10px;
+          background: #d34836;
+          color: #fff;
+      }
+    }
+  }
+
+  .divider {
+    margin: 30px 0px 30px 0px;
+    align-self: center;
+    width:500px;
+    text-align:center;
+
+    hr {
+      margin-left:auto;
+      margin-right:auto;
+      width:40%;
+
+      &.left {
+        float:left;
+      }
+
+      &.right {
+        float:right;
+      }
+    }
+  }
+
+  .internal-account {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+
+    input {
+      height: 40px;
+      width: 500px;
+
+      &:nth-child(2) {
+        margin-top: 10px;
+      }
+    }
+
+    button {
+      align-self: center;
+      margin-top: 15px;
+      height: 50px;
+      width: 300px;
+      border-style: none;
+      border-radius: 3px;
+      background: #758ab6;
+      color: #fff;
+    }
+  }
+}
