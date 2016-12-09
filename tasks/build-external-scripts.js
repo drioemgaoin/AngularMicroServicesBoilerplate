@@ -12,6 +12,7 @@ module.exports = function(gulp, plugins, config) {
                 overrides: config.bowerOverrides
               }), { base: './' }),
           gulp.src(plugins.mainNpmFiles(), { base: './' })
+            .pipe(plugins.filter(["**/satellizer.js"]))
         )
         .pipe(plugins.if(argv.production, plugins.uglify()))
         .pipe(plugins.flatten());

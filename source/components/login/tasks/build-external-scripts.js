@@ -16,6 +16,7 @@ module.exports = function(gulp, plugins, config) {
           nodeModulesPath: "../node_modules",
           packageJsonPath: "../package.json"
         }), { base: './' })
+        .pipe(plugins.filter(["**/satellizer.js", "**/toastr.js"]))
       )
       .pipe(plugins.if(argv.production, plugins.uglify()))
       .pipe(plugins.flatten())

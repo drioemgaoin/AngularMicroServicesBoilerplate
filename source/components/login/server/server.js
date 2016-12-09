@@ -1,7 +1,22 @@
 'use strict';
 
+var express = require('express');
 var request = require('request');
+var bodyParser = require('body-parser');
+var cors = require('cors');
+var logger = require('morgan');
+var path = require('path');
 var config = require('./config');
+
+var app = express();
+
+app.set('port', process.env.NODE_PORT || 9000);
+app.set('host', process.env.NODE_IP || 'localhost');
+app.use(cors());
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, '../client')));
 
 app.post('/auth/facebook', function(req, res) {
   var fields = ['id', 'email', 'first_name', 'last_name', 'link', 'name'];
@@ -27,4 +42,8 @@ app.post('/auth/facebook', function(req, res) {
       }
     });
   });
+});
+
+app.listen(app.get('port'), app.get('host'), function() {
+  console.log('Express server listening on port ' + app.get('port'));
 });

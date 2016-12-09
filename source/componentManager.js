@@ -83,6 +83,13 @@ module.exports = function(gulp, plugins, componentsPath) {
         })
       )
     },
+    buildServer: function() {
+      return [
+        componentBuilds.map(function(build) {
+          return build.buildServer();
+        })
+      ];
+    },
     lint: function(type) {
       return mergeStream(
         componentBuilds.map(function(build) {

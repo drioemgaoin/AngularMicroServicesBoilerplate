@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "description": "Token-based authentication module for AngularJS using satellizer",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm install express && node server/server.js"
   },
   "author": "Romain Diegoni",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "1.15.2",
+    "cors": "2.8.1",
+    "express": "4.14.0",
+    "morgan": "1.7.0",
     "satellizer": "0.15.5",
     "toastr": "2.1.2"
   },
@@ -15,5 +19,6 @@
     "caller-id": "0.1.0",
     "gulp-order": "1.1.1",
     "main-bower-files": "2.13.1"
-  }
+  },
+  "main": "server/server.js"
 }

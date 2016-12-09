@@ -34,14 +34,14 @@ gulp.task('build-internal-scripts', function() {
       .pipe(gulp.dest(config.client.deployment.scripts)),
 
     componentManager.buildInternalScript('server')
-      .pipe(plugins.concat('internal.js'))
-      .pipe(gulp.dest(config.server.deployment.scripts))
+    //  .pipe(plugins.concat('internal.js'))
+        .pipe(gulp.dest(config.server.deployment.root))
   );
 });
 
 gulp.task('build-external-scripts', function() {
+  //return mergeStream(
   return mergeStream(
-    mergeStream(
         componentManager.buildExternalScript('client'),
         getTask('build-external-scripts')()
       )
@@ -55,13 +55,13 @@ gulp.task('build-external-scripts', function() {
       )
       .pipe(plugins.dedupe({ same: false }))
       .pipe(plugins.concat('vendor.js'))
-      .pipe(gulp.dest(config.client.deployment.scripts)),
+      .pipe(gulp.dest(config.client.deployment.scripts));
 
-    componentManager.buildExternalScript('server')
-      .pipe(plugins.dedupe({ same: false }))
-      .pipe(plugins.concat('vendor.js'))
-      .pipe(gulp.dest(config.server.deployment.scripts))
-  );
+    //componentManager.buildExternalScript('server')
+      //.pipe(plugins.dedupe({ same: false }))
+      //.pipe(plugins.concat('vendor.js'))
+      //.pipe(gulp.dest(config.server.deployment.root))
+  //);
 });
 
 gulp.task('build-internal-styles', ['lint'], function() {
@@ -111,6 +111,10 @@ gulp.task("lint", function() {
   return streams;
 });
 
+gulp.task('build-server', function() {
+  return componentManager.buildServer();
+});
+
 gulp.task('generate-route', getTask('generate-route'));
 gulp.task('inject', getTask('inject'));
 gulp.task('start-server', getTask('start-server'));
@@ -123,7 +127,8 @@ gulp.task('build', [
     "build-internal-styles",
     "build-external-styles",
     "build-fonts",
-    "build-images"
+    "build-images",
+    "build-server"
 ]);
 
 if (argv.production) {
