@@ -8,6 +8,7 @@ var argv = require('yargs').argv;
 var config = require("./gulpconfig.json");
 var componentManager = require("./source/componentManager")(gulp, plugins, "source/components");
 var mergeStream = require('merge-stream');
+var orderedMergeStream = require('ordered-merge-stream');
 
 function getTask(task) {
     return require('./tasks/' + task)(gulp, plugins, config);
@@ -22,10 +23,13 @@ gulp.task("clean", function() {
 
 gulp.task('build-internal-scripts', function() {
   return mergeStream(
+
     mergeStream(
-        getTask('build-internal-scripts')(),
-        componentManager.buildInternalScript('client')
+        getTask('generate-route')().pipe(plugins.concat('route-scripts')),
+        getTask('build-internal-scripts')().pipe(plugins.concat('root-scripts')),
+        componentManager.buildInternalScript('client').pipe(plugins.concat('componentv'))
       )
+      .pipe(plugins.order(['route-scripts', 'root-scripts', 'component-scripts']))
       .pipe(plugins.concat('internal.js'))
       .pipe(gulp.dest(config.client.deployment.scripts)),
 
@@ -40,6 +44,14 @@ gulp.task('build-external-scripts', function() {
     mergeStream(
         componentManager.buildExternalScript('client'),
         getTask('build-external-scripts')()
+      )
+      .pipe(plugins.order([
+          "jquery.js",
+          "jquery*.js",
+          "angular.js",
+          "angular*.js",
+          "*.js"
+          ], { base: './' })
       )
       .pipe(plugins.dedupe({ same: false }))
       .pipe(plugins.concat('vendor.js'))
@@ -99,8 +111,9 @@ gulp.task("lint", function() {
   return streams;
 });
 
+gulp.task('generate-route', getTask('generate-route'));
 gulp.task('inject', getTask('inject'));
-// gulp.task('start-server', getTask('start-server'));
+gulp.task('start-server', getTask('start-server'));
 // gulp.task('watch', getTask('watch'));
 //
 gulp.task('build', [
@@ -112,13 +125,14 @@ gulp.task('build', [
     "build-fonts",
     "build-images"
 ]);
-//
-// if (argv.production) {
-//   gulp.task('start', ["start-server"], getTask('start-client'));
-// } else {
-//   gulp.task('start', getTask('watch'));
-// }
 
-gulp.task('default', ['clean'], function() {
-    runSequence("build", "inject");
+if (argv.production) {
+  gulp.task('start', ["start-server"], getTask('start-client'));
+} else {
+  gulp.task('start', ["start-server"], getTask('start-client'));
+  //gulp.task('start', getTask('watch'));
+}
+
+gulp.task('default', ["clean"], function() {
+    runSequence("build", "inject", "start");
 });

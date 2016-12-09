@@ -12,14 +12,21 @@ module.exports = function(gulp, plugins, componentsPath) {
     return fs.readdirSync(componentRoot).filter(function(file) {
       return fs.statSync(path.join(componentRoot, file)).isDirectory();
     }).map(function(file) {
-      var build = path.join('components/', file);
-      return require("./" + build + "/build.js")(gulp, plugins);
+      return path.join('components/', file);
     });
   }
 
-  var componentBuilds = getDirectories();
+  var componentBuilds = getDirectories()
+    .map(function(directory) {
+      return require("./" + directory + "/build.js")(gulp, plugins);
+    });
 
   return {
+    getConfigRoutes: function() {
+      return getDirectories().map(function(directory) {
+        return "./" + path.join(root, "/" , directory, "/client/config.js");
+      });
+    },
     clean: function(type) {
       return mergeStream(
         componentBuilds.map(function(build) {

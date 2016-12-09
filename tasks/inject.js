@@ -7,13 +7,12 @@ module.exports = function(gulp, plugins, config) {
                 .pipe(plugins.inject(
                     gulp.src(config.client.deployment.scripts + '/**/*.js', {read: false})
                         .pipe(plugins.order(["vendor.js", "internal.js"])), {
-                  ignorePath: 'dist',
+                  ignorePath: 'dist/client',
                   addRootSlash: false
                 }))
-
                 .pipe(gulp.dest(config.client.deployment.root))
                 .pipe(plugins.inject(gulp.src(config.client.deployment.styles + '/**/*.css', {read: false}), {
-                  ignorePath: 'dist',
+                  ignorePath: 'dist/client',
                   addRootSlash: false
                 }))
                 .pipe(gulp.dest(config.client.deployment.root));

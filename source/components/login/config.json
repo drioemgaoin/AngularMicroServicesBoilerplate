@@ -3,7 +3,11 @@
     "componentRoot": "./source/components/login",
     "build": {
       "root": "./source/components/login/client",
-      "scripts": "./source/components/login/client/**/*.js",
+      "scripts": [
+        "./source/components/login/client/**/*.js",
+        "!./source/components/login/client/app.js",
+        "!./source/components/login/client/config.js"
+      ],
       "views": "./source/components/login/client/**/*.html",
       "styles": "./source/components/login/client/**/*.scss",
       "images": "./source/components/login/client/**/*.{jpg,jpeg,png,gif}"

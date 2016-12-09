@@ -18,5 +18,13 @@ module.exports = function(gulp, plugins, config) {
         }), { base: './' })
       )
       .pipe(plugins.if(argv.production, plugins.uglify()))
-      .pipe(plugins.flatten());
+      .pipe(plugins.flatten())
+      .pipe(plugins.order([
+          "jquery.js",
+          "jquery*.js",
+          "angular.js",
+          "angular*.js",
+          "*.js"
+          ], { base: './' })
+      );
 };

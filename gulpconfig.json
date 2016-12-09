@@ -1,7 +1,12 @@
 {
     "client": {
       "build": {
-        "scripts": ["./source/**/*.js", "!./source/components/**/*.js", "!./source/componentManager.js"],
+        "scripts": [
+          "./source/**/*.js",
+          "!./source/components/**/*.js",
+          "!./source/componentManager.js",
+          "!./source/config.js", "!./source/app.js"
+        ],
         "views": ["./source/**/*.html", "!./source/components/**/*.html"],
         "styles": ["./source/**/*.scss", "!./source/components/**/*.scss"],
         "images": "./source/**/*.{jpg,jpeg,png,gif}"
