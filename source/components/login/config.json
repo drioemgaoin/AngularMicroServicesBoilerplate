@@ -6,7 +6,8 @@
       "scripts": [
         "./source/components/login/client/**/*.js",
         "!./source/components/login/client/app.js",
-        "!./source/components/login/client/config.js"
+        "!./source/components/login/client/config.js",
+        "!./source/components/login/client/gulpfile.js"
       ],
       "views": "./source/components/login/client/**/*.html",
       "styles": "./source/components/login/client/**/*.scss",

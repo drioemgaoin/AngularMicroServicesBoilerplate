@@ -6,6 +6,8 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 var logger = require('morgan');
 var path = require('path');
+var jwt = require('jwt-simple');
+var moment = require('moment');
 var config = require('./config');
 
 var app = express();
@@ -17,6 +19,15 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../client')));
+
+function createJWT(userId) {
+  var payload = {
+    sub: userId,
+    iat: moment().unix(),
+    exp: moment().add(14, 'days').unix()
+  };
+  return jwt.encode(payload, config.TOKEN_SECRET);
+}
 
 app.post('/auth/facebook', function(req, res) {
   var fields = ['id', 'email', 'first_name', 'last_name', 'link', 'name'];
@@ -40,6 +51,9 @@ app.post('/auth/facebook', function(req, res) {
       if (response.statusCode !== 200) {
         return res.status(500).send({ message: profile.error.message });
       }
+
+      var token = createJWT(profile.id);
+      res.send({ token: token });
     });
   });
 });
