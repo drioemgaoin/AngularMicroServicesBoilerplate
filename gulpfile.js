@@ -37,29 +37,44 @@ gulp.task('build-internal-scripts', function() {
 
 gulp.task('build-external-scripts', function() {
   return mergeStream(
-    componentManager.buildExternalScript('client')
+    mergeStream(
+        componentManager.buildExternalScript('client'),
+        getTask('build-external-scripts')()
+      )
+      .pipe(plugins.dedupe({ same: false }))
       .pipe(plugins.concat('vendor.js'))
       .pipe(gulp.dest(config.client.deployment.scripts)),
 
     componentManager.buildExternalScript('server')
+      .pipe(plugins.dedupe({ same: false }))
       .pipe(plugins.concat('vendor.js'))
       .pipe(gulp.dest(config.server.deployment.scripts))
   );
 });
 
-gulp.task('build-components-internal-styles', ['lint'], function() {
-  return componentManager.buildInternalStyle('client')
-      .pipe(plugins.rename({ basename: "components" }))
-      .pipe(gulp.dest(config.client.deployment.styles));
+gulp.task('build-internal-styles', ['lint'], function() {
+  var streams = componentManager.buildInternalStyle('client');
+  streams.add(getTask('build-internal-styles')());
+  return streams
+    .pipe(plugins.concat('internal.css'))
+    .pipe(gulp.dest(config.client.deployment.styles));
 });
 
 gulp.task('build-external-styles', function() {
-  return componentManager.buildExternalStyle('client')
-      .pipe(gulp.dest(config.client.deployment.styles))
+  var streams = componentManager.buildExternalStyle('client');
+  streams.add(getTask('build-external-styles')());
+  return streams
+    .pipe(plugins.dedupe({ same: false }))
+    .pipe(gulp.dest(config.client.deployment.styles))
 });
 
 gulp.task('build-fonts', function() {
-  return componentManager.buildFonts();
+  return mergeStream(
+    getTask('build-fonts')(),
+    componentManager.buildFonts()
+  )
+  .pipe(plugins.dedupe({ same: false }))
+  .pipe(gulp.dest(config.client.deployment.fonts));
 });
 
 gulp.task('build-views', function() {
@@ -84,10 +99,6 @@ gulp.task("lint", function() {
   return streams;
 });
 
-// gulp.task('build-external-scripts', getTask('build-external-scripts'));
-gulp.task('build-internal-styles', ['build-components-internal-styles'], getTask('build-internal-styles'));
-// gulp.task('build-external-styles', getTask('build-external-styles'));
-// gulp.task('build-fonts', getTask('build-fonts'));
 gulp.task('inject', getTask('inject'));
 // gulp.task('start-server', getTask('start-server'));
 // gulp.task('watch', getTask('watch'));
@@ -98,7 +109,7 @@ gulp.task('build', [
     "build-views",
     "build-internal-styles",
     "build-external-styles",
-    // "build-fonts",
+    "build-fonts",
     "build-images"
 ]);
 //

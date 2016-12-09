@@ -42,6 +42,10 @@ module.exports = function(gulp, plugins) {
       var task = require('./tasks/build-images');
       return task(gulp, plugins, config.client);
     },
+    buildFonts: function() {
+      var task = require('./tasks/build-fonts');
+      return task(gulp, plugins, config.client);
+    },
     lint: function(type) {
       var task = require('./tasks/lint');
       return type === 'client'

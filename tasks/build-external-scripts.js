@@ -2,19 +2,18 @@
 
 var argv = require('yargs').argv;
 var mergeStream = require('merge-stream');
+var mainBowerFiles = require('main-bower-files');
 
 module.exports = function(gulp, plugins, config) {
     return function() {
-        var jsFilter = plugins.filter('**/*.js', { restore: true });
-
         return mergeStream(
-          gulp.src('./bower.json')
-              .pipe(plugins.mainBowerFiles({ overrides: config.bowerOverrides })),
+          gulp.src(mainBowerFiles({
+                filter: '**/*.js',
+                overrides: config.bowerOverrides
+              }), { base: './' }),
           gulp.src(plugins.mainNpmFiles(), { base: './' })
         )
-        .pipe(jsFilter)
         .pipe(plugins.if(argv.production, plugins.uglify()))
-        .pipe(plugins.concat('vendor.js'))
-        .pipe(gulp.dest(config.deployment.scripts));
+        .pipe(plugins.flatten());
     };
 };

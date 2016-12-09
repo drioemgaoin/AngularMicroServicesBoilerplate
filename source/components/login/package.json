@@ -13,6 +13,6 @@
   },
   "devDependencies": {
     "caller-id": "0.1.0",
-    "gulp-main-npm-files": "1.0.3"
+    "main-bower-files": "2.13.1"
   }
 }

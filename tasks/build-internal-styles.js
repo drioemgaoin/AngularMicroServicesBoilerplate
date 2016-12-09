@@ -8,7 +8,6 @@ module.exports = function(gulp, plugins, config) {
         return gulp.src(config.client.build.styles)
           .pipe(plugins.sass())
           .pipe(plugins.if(argv.production, plugins.csso()))
-          .pipe(plugins.flatten())
-          .pipe(gulp.dest(config.client.deployment.styles));
+          .pipe(plugins.flatten());
     };
 };

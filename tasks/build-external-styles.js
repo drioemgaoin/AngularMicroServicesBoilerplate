@@ -1,17 +1,16 @@
 'use strict';
 
 var argv = require('yargs').argv;
+var mainBowerFiles = require('main-bower-files');
 
 module.exports = function(gulp, plugins, config) {
     return function() {
-        var scssFilter = plugins.filter('**/*.scss', { restore: true });
-
-        return gulp.src('./bower.json')
-            .pipe(plugins.mainBowerFiles({ overrides: config.bowerOverrides }))
-            .pipe(scssFilter)
+        return gulp.src(mainBowerFiles({
+              filter: '**/*.scss',
+              overrides: config.bowerOverrides
+            }), { base: './' })
             .pipe(plugins.sass())
             .pipe(plugins.if(argv.production, plugins.csso()))
-            .pipe(plugins.flatten())
-            .pipe(gulp.dest(config.deployment.styles));
+            .pipe(plugins.flatten());
     };
 };

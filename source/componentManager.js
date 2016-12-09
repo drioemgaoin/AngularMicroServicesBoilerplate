@@ -5,30 +5,19 @@ var path = require("path");
 var mergeStream = require('merge-stream');
 
 module.exports = function(gulp, plugins, componentsPath) {
-  var componentBuilds = [];
   var root = path.join("./", __dirname.replace(process.cwd(), ""));
   var componentRoot = path.join(root, "/components");
 
-  function getBuilds(startPath, filter){
-      if (!fs.existsSync(startPath)) {
-          return;
-      }
+  function getDirectories() {
+    return fs.readdirSync(componentRoot).filter(function(file) {
+      return fs.statSync(path.join(componentRoot, file)).isDirectory();
+    }).map(function(file) {
+      var build = path.join('components/', file);
+      return require("./" + build + "/build.js")(gulp, plugins);
+    });
+  }
 
-      var files = fs.readdirSync(startPath);
-      for(var i = 0; i < files.length; i++){
-          var filename = path.join(startPath, files[i]);
-          var stat = fs.lstatSync(filename);
-          if (stat.isDirectory()) {
-              getBuilds(filename, filter);
-          } else {
-            if (filter.test(filename)) {
-              componentBuilds.push(require(filename.replace(root, "."))(gulp, plugins));
-            }
-          }
-      };
-  };
-
-  getBuilds(componentRoot, /build\.js$/);
+  var componentBuilds = getDirectories();
 
   return {
     clean: function(type) {
@@ -77,6 +66,13 @@ module.exports = function(gulp, plugins, componentsPath) {
       return mergeStream(
         componentBuilds.map(function(build) {
           return build.buildImages();
+        })
+      )
+    },
+    buildFonts: function() {
+      return mergeStream(
+        componentBuilds.map(function(build) {
+          return build.buildFonts();
         })
       )
     },

@@ -1,5 +1,6 @@
 {
   "client": {
+    "componentRoot": "./source/components/login",
     "build": {
       "root": "./source/components/login/client",
       "scripts": "./source/components/login/client/**/*.js",
@@ -14,9 +15,18 @@
       "styles": "./dist/client/css",
       "fonts": "./dist/client/fonts",
       "images": "./dist/client/images"
+    },
+    "bowerOverrides": {
+      "font-awesome": {
+        "main": [
+          "./scss/font-awesome.scss",
+          "./fonts/*"
+        ]
+      }
     }
   },
   "server": {
+    "componentRoot": "./source/components/login",
     "build": {
       "root": "./source/components/login/server",
       "scripts": "./source/components/login/server/**/*.js"
