@@ -7,13 +7,11 @@ module.exports = function(gulp, plugins, config) {
       var source = path.join(
         config.client.basePath,
         config.client.deployment.root,
-        config.client.deployment.views,
         "/index.html");
 
       var dest = path.join(
         config.client.basePath,
-        config.client.deployment.root,
-        config.client.deployment.views);
+        config.client.deployment.root);
 
       var scripts = path.join(
         config.client.basePath,
@@ -24,7 +22,6 @@ module.exports = function(gulp, plugins, config) {
         config.client.basePath,
         config.client.deployment.root,
         config.client.deployment.styles);
-        console.log(source);
 
       return gulp.src(source)
           .pipe(plugins.inject(
