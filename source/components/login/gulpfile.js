@@ -55,6 +55,8 @@ gulp.task('build', [
     "build-images"
 ]);
 
+gulp.task('start-server', getTask('start-server'));
+
 if (argv.production) {
   gulp.task('start', ["start-server"], getTask('start-client'));
 } else {
@@ -63,5 +65,5 @@ if (argv.production) {
 }
 
 gulp.task('default', ["clean"], function() {
-    runSequence("build", "inject");
+    runSequence("build", "inject", "start");
 });

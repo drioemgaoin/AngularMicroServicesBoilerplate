@@ -9,6 +9,11 @@ module.exports = function(gulp, plugins, config) {
       var source = path.join(config.client.basePath, config.client.build.root, config.client.build.views);
       var dest = path.join(config.client.deployment.root, config.client.deployment.views);
 
+      var isMainPage = function (file) {
+        var source = path.join(config.client.build.root, "/views/index.html");
+        return file.path.endsWith(source);
+      };
+
       return mergeStream(
         componentManager.buildViews()(),
         gulp.src(source)
@@ -17,6 +22,6 @@ module.exports = function(gulp, plugins, config) {
         return file.path.indexOf("/components/") !== -1 &&
           file.path.endsWith("/views/index.html");
       }))
-      .pipe(gulp.dest(dest));
+      .pipe(plugins.if(isMainPage, gulp.dest(config.client.deployment.root), gulp.dest(dest)));
     };
 };
