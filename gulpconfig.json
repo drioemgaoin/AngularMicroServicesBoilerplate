@@ -1,28 +1,29 @@
 {
     "client": {
+      "basePath": "./",
       "build": {
+        "root": "source",
         "scripts": [
-          "./source/**/*.js",
-          "!./source/components/**/*.js",
-          "!./source/componentManager.js",
-          "!./source/config.js", "!./source/app.js"
+          "{0}/**/*.js",
+          "!{0}/*.js",
+          "!{0}/components/**"
         ],
-        "views": ["./source/**/*.html", "!./source/components/**/*.html"],
-        "styles": ["./source/**/*.scss", "!./source/components/**/*.scss"],
-        "images": "./source/**/*.{jpg,jpeg,png,gif}"
+        "views": "/views/**/*.html",
+        "styles": "/styles/**/*.scss",
+        "images": "/images/**/*.{jpg,jpeg,png,gif}"
       },
       "deployment": {
         "root": "./dist/client",
-        "scripts": "./dist/client/scripts",
-        "views": "./dist/client/views",
-        "styles": "./dist/client/css",
-        "fonts": "./dist/client/fonts",
-        "images": "./dist/client/images"
+        "scripts": "scripts",
+        "views": "views",
+        "styles": "css",
+        "fonts": "fonts",
+        "images": "images"
       }
     },
     "server": {
       "build": {
-        "scripts": "./source/**/*.js"
+        "scripts": ["./source/**/*.js"]
       },
       "deployment": {
         "root": "./dist/server",

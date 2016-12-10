@@ -28,60 +28,72 @@ module.exports = function(gulp, plugins, componentsPath) {
       });
     },
     clean: function(type) {
-      return mergeStream(
-        componentBuilds.map(function(build) {
-          return build.clean(type);
-        })
-      );
+      return function() {
+        return mergeStream(
+          componentBuilds.map(function(build) {
+            return build.clean(type)();
+          })
+        );
+      };
     },
     buildInternalScript: function(type) {
+      return function() {
+        return mergeStream(
+          componentBuilds.map(function(build) {
+            return build.buildInternalScript(type, { minify: false, dest: false })();
+          })
+        )
+      };
+    },
+    buildExternalScript: function() {
       return mergeStream(
         componentBuilds.map(function(build) {
-          return build.buildInternalScript(type);
+          return build.buildExternalScript({ minify: false, dest: false })();
         })
       )
     },
-    buildExternalScript: function(type) {
-      return mergeStream(
-        componentBuilds.map(function(build) {
-          return build.buildExternalScript(type);
-        })
-      )
+    buildInternalStyle: function() {
+      return function() {
+        return mergeStream(
+          componentBuilds.map(function(build) {
+            return build.buildInternalStyle({ dest: false })();
+          })
+        )
+      };
     },
-    buildInternalStyle: function(type) {
+    buildExternalStyle: function() {
       return mergeStream(
         componentBuilds.map(function(build) {
-          return build.buildInternalStyle(type);
-        })
-      )
-    },
-    buildExternalStyle: function(type) {
-      return mergeStream(
-        componentBuilds.map(function(build) {
-          return build.buildExternalStyle(type);
+          return build.buildExternalStyle({ dest: false })();
         })
       )
     },
     buildViews: function() {
-      return [
-        componentBuilds.map(function(build) {
-          return build.buildViews();
-        })
-      ];
+      return function() {
+        return mergeStream(
+          componentBuilds.map(function(build) {
+            return build.buildViews({ dest: false })();
+          })
+        );
+      };
     },
     buildImages: function() {
-      return mergeStream(
-        componentBuilds.map(function(build) {
-          return build.buildImages();
-        })
-      )
+      return function() {
+        return mergeStream(
+          componentBuilds.map(function(build) {
+            return build.buildImages({ dest: false })();
+          })
+        );
+      };
     },
     buildFonts: function() {
-      return mergeStream(
-        componentBuilds.map(function(build) {
-          return build.buildFonts();
-        })
-      )
+      return function() {
+        return mergeStream(
+          componentBuilds.map(function(build) {
+            return build.buildFonts({ dest: false })();
+          })
+        );
+      };
     },
     buildServer: function() {
       return [
@@ -93,7 +105,7 @@ module.exports = function(gulp, plugins, componentsPath) {
     lint: function(type) {
       return mergeStream(
         componentBuilds.map(function(build) {
-          return build.lint(type);
+          return build.lint(type)();
         })
       )
     }

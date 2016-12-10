@@ -27,6 +27,7 @@
     "gulp-filter": "^4.0.0",
     "gulp-flatten": "^0.3.1",
     "gulp-if": "^2.0.2",
+    "gulp-ignore": "2.0.2",
     "gulp-imagemin": "^3.1.1",
     "gulp-inject": "^4.1.0",
     "gulp-install": "0.6.0",
@@ -52,6 +53,7 @@
     "ordered-merge-stream": "1.0.0",
     "path": "0.12.7",
     "rimraf": "^2.5.4",
+    "run-parallel": "1.1.6",
     "run-sequence": "^1.2.2",
     "yargs": "6.4.0"
   }

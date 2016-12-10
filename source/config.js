@@ -10,7 +10,7 @@ var loginRequired = ['$q', '$location', '$auth', function($q, $location, $auth) 
 }];
 
 $routeProvider.when('/', {
-    templateUrl : 'views/home.html',
+    templateUrl : 'views/home/index.html',
     controller : 'homeController',
     controllerAs: 'ctrl',
     resolve: {
