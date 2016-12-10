@@ -1,17 +1,13 @@
 'use strict';
 
-var mergeStream = require('merge-stream');
-var start = require("../../../../tasks/start-server");
-var runSequence = require('run-sequence');
+var path = require('path');
 
 module.exports = function(gulp, plugins, config) {
-    return mergeStream(
-      // Copie all the server scripts in the destination folder
-      gulp.src(config.build.scripts)
-        .pipe(gulp.dest(config.deployment.root)),
+  return function() {
+    var packageJson = path.join(config.basePath, "/package.json");
+    var dest = path.join(config.deployment.root, config.deployment.scripts);
 
-      // Copie package.json in the destination folder and install the dependencies
-      gulp.src(config.componentRoot + "/package.json")
-        .pipe(gulp.dest(config.deployment.root))
-    );
+    return gulp.src(packageJson)
+      .pipe(gulp.dest(dest))
+  };
 };

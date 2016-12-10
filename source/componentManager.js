@@ -96,11 +96,11 @@ module.exports = function(gulp, plugins, componentsPath) {
       };
     },
     buildServer: function() {
-      return [
+      return mergeStream(
         componentBuilds.map(function(build) {
-          return build.buildServer();
+          return build.buildServer()();
         })
-      ];
+      );
     },
     lint: function(type) {
       return mergeStream(

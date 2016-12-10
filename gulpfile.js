@@ -34,9 +34,7 @@ gulp.task('build-images', getTask('build-images'));
 
 gulp.task("lint", getTask('lint'));
 
-gulp.task('build-server', function() {
-  return componentManager.buildServer();
-});
+gulp.task('build-server', getTask('build-server'));
 
 gulp.task('generate-route', getTask('generate-route'));
 
@@ -51,7 +49,8 @@ gulp.task('build', [
     "build-internal-styles",
     "build-external-styles",
     "build-fonts",
-    "build-images"
+    "build-images",
+    "build-server"
 ]);
 
 if (argv.production) {
@@ -62,5 +61,5 @@ if (argv.production) {
 }
 
 gulp.task('default', ["clean"], function() {
-    runSequence("build");
+    runSequence("build", "inject", "start");
 });

@@ -45,6 +45,8 @@ gulp.task('lint', function() {
     });
 });
 
+gulp.task('build-server', build.buildServer());
+
 gulp.task('build', [
     "build-internal-scripts",
     "build-external-scripts",
@@ -52,7 +54,8 @@ gulp.task('build', [
     "build-internal-styles",
     "build-external-styles",
     "build-fonts",
-    "build-images"
+    "build-images",
+    "build-server"
 ]);
 
 gulp.task('start-server', getTask('start-server'));

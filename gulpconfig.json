@@ -22,12 +22,13 @@
       }
     },
     "server": {
+      "basePath": "./",
       "build": {
         "scripts": ["./source/**/*.js"]
       },
       "deployment": {
-        "root": "./dist/server",
-        "scripts": "./dist/server/scripts"
+        "root": "dist/server",
+        "scripts": ""
       }
     },
     "bower": "./bower.json",
