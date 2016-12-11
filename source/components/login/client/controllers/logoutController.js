@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app')
-  .controller('logoutController', function($location, $auth, toastr) {
+  .controller('logoutController', function($state, $auth, toastr) {
     if (!$auth.isAuthenticated()) {
       return;
     }
@@ -9,6 +9,6 @@ angular.module('app')
     $auth.logout()
       .then(function() {
         toastr.info('You have been logged out');
-        $location.path('/');
+        $state.go('home');
       });
   });

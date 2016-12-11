@@ -9,12 +9,25 @@ var skipIfLoggedIn = ['$q', '$auth', function($q, $auth) {
   return deferred.promise;
 }];
 
+var loginRequired = ['$q', '$location', '$auth', function($q, $location, $auth) {
+      var deferred = $q.defer();
+      if ($auth.isAuthenticated()) {
+        deferred.resolve();
+      } else {
+        $location.path('/login');
+      }
+      return deferred.promise;
+    }];
+
 $stateProvider
   .state('home', {
     url: '/',
     controller: 'homeController',
     templateUrl: 'views/login/home.html',
-    controllerAs: "ctrl"
+    controllerAs: "ctrl",
+    resolve: {
+      loginRequired: loginRequired
+    }
   })
   .state('login', {
     url: '/login',

@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('app')
-  .controller('loginController', ['$scope', '$auth', '$location', 'toastr', function($scope, $auth, $location, toastr) {
+  .controller('loginController', function($scope, $auth, $state, toastr) {
     $scope.login = function() {
       $auth.login($scope.user)
         .then(function() {
           toastr.success('You have successfully signed in!');
-          $location.path('/');
+          $state.go('home');
         })
         .catch(function(error) {
           toastr.error(error.data.message, error.status);
@@ -17,7 +17,7 @@ angular.module('app')
       $auth.authenticate(provider)
         .then(function() {
           toastr.success('You have successfully signed in with ' + provider + '!');
-          $location.path('/');
+          $state.go('home');
         })
         .catch(function(error) {
           if (error.message) {
@@ -29,4 +29,4 @@ angular.module('app')
           }
         });
     };
-  }]);
+  });
