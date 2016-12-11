@@ -22,12 +22,10 @@ module.exports = function(gulp, plugins, config, options) {
       });
       var dest = path.join(config.deployment.root, config.deployment.scripts);
 
-      var streams = mergeStream(gulp.src(sources));
-      if (options.dest) {
-        streams.add(generateRoute(gulp, plugins, config)());
-      }
-
-      return mergeStream(streams)
+      return mergeStream(
+          options.dest ? generateRoute(gulp, plugins, config)() : null,
+          gulp.src(sources)
+        )
         .pipe(plugins.if(argv.production, plugins.uglify({ mangle: false })))
         .pipe(plugins.if(options.minify, plugins.concat('internal.js')))
         .pipe(plugins.if(options.dest, gulp.dest(dest)));
