@@ -23,7 +23,7 @@ $stateProvider
   .state('home', {
     url: '/',
     controller: 'homeController',
-    templateUrl: 'views/login/home.html',
+    templateUrl: 'views/home.html',
     controllerAs: "ctrl",
     resolve: {
       loginRequired: loginRequired
@@ -31,7 +31,7 @@ $stateProvider
   })
   .state('login', {
     url: '/login',
-    templateUrl: 'views/login/login.html',
+    templateUrl: 'views/login.html',
     controller: 'loginController',
     controllerAs: "ctrl",
     resolve: {
@@ -40,7 +40,7 @@ $stateProvider
   })
   .state('signup', {
     url: '/signup',
-    templateUrl: 'views/login/signup.html',
+    templateUrl: 'views/signup.html',
     controller: 'signupController',
     controllerAs: "ctrl",
     resolve: {
