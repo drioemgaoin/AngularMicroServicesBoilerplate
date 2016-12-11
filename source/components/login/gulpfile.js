@@ -15,8 +15,10 @@ function getTask(task) {
 }
 
 gulp.task("clean", function() {
-  return build.clean('client')()
-    .on('end', build.clean('server'));
+  return mergeStream(
+    build.clean('client')(),
+    build.clean('server')()
+  );
 });
 
 gulp.task("build-views", build.buildViews());
@@ -26,8 +28,10 @@ gulp.task("build-images", build.buildImages());
 gulp.task("build-fonts", build.buildFonts());
 
 gulp.task("build-internal-scripts", ['lint'], function() {
-  return build.buildInternalScript('client')()
-    .on('end', build.buildInternalScript('server', { minify: false }));
+  return mergeStream(
+    build.buildInternalScript('client')(),
+    build.buildInternalScript('server', { minify: false })()
+  );
 });
 
 gulp.task("build-external-scripts", build.buildExternalScript());
@@ -39,10 +43,10 @@ gulp.task("build-external-styles", build.buildExternalStyle());
 gulp.task('inject', getTask('inject'));
 
 gulp.task('lint', function() {
-  return build.lint('client')()
-    .on('end', function() {
-      build.lint('server')();
-    });
+  return mergeStream(
+    build.lint('client')(),
+    build.lint('server')()
+  );
 });
 
 gulp.task('build-server', build.buildServer());
