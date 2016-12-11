@@ -16,19 +16,18 @@
     </div>
 
     <div class="container">
-      <div ng-controller="navbarController" class="navbar navbar-default navbar-static-top">
+      <div ng-controller="navbarController" class="navbar navbar-default">
         <div class="navbar-header">
-          <a class="navbar-brand" ui-sref="/home"><i class="ion-ios7-pulse-strong"></i> Login Component</a>
+          <a class="navbar-brand" ui-sref="home"><i class="ion-ios7-pulse-strong"></i> Login Component</a>
         </div>
         <ul class="nav navbar-nav">
           <li><a ui-sref="home">Home</a></li>
-          <li ng-if="isAuthenticated()"><a href="/#/profile">Profile</a></li>
         </ul>
-        <ul ng-if="!isAuthenticated()" class="nav navbar-nav pull-right">
+        <ul ng-if="!isAuthenticated()" class="nav navbar-nav">
           <li><a ui-sref="login">Login</a></li>
           <li><a ui-sref="signup">Sign up</a></li>
         </ul>
-        <ul ng-if="isAuthenticated()" class="nav navbar-nav pull-right">
+        <ul ng-if="isAuthenticated()" class="nav navbar-nav">
           <li><a ui-sref="logout">Logout</a></li>
         </ul>
       </div>

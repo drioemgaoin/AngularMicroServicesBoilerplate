@@ -40,8 +40,7 @@
     "gulp-uglify": "2.0.0",
     "main-bower-files": "2.13.1",
     "merge-stream": "1.0.1",
-    "run-parallel": "1.1.6",
-    "stream-series": "0.1.1"
+    "run-parallel": "1.1.6"
   },
   "main": "server/server.js"
 }
