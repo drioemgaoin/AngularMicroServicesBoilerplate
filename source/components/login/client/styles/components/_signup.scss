@@ -1,0 +1,36 @@
+.signup {
+  display: flex;
+  flex-direction: column;
+  border: 0;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
+  background: #fff;
+  margin-top: 10px;
+  width: 330px;
+  padding: 10px;
+
+  h2 {
+    display: flex;
+    align-self: center;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+
+    input {
+      height: 40px;
+
+      &:nth-child(1) {
+        margin-top: 10px;
+      }
+    }
+  }
+
+  .btn {
+    height: 40px;
+    width: 300px;
+    border-style: none;
+    border-radius: 3px;
+  }
+}
