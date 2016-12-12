@@ -1,6 +1,13 @@
 .login {
+  align-self: center;
   display: flex;
   flex-direction: column;
+  border: 0;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
+  background: #fff;
+  margin-top: 10px;
+  width: 330px;
+  padding: 10px;
 
   h2 {
     display: flex;
@@ -12,44 +19,36 @@
     flex-direction: column;
     align-self: center;
 
-    button {
+    .btn {
       height: 50px;
       width: 300px;
       border-style: none;
       border-radius: 3px;
 
-      &.facebook {
-          background: #3b5998;
-          color: #fff;
-      }
-
-      &.google {
-          margin-top: 10px;
-          background: #d34836;
-          color: #fff;
+      &:nth-child(2) {
+        margin-top: 10px;
       }
     }
   }
 
-  .divider {
-    margin: 30px 0px 30px 0px;
-    align-self: center;
-    width:500px;
-    text-align:center;
+  .signup-or-separator {
+    margin: 10px 0px;
+    height: 34px;
+    text-align: center;
+    background: none;
+  }
 
-    hr {
-      margin-left:auto;
-      margin-right:auto;
-      width:40%;
+  .signup-or-separator hr {
+    width: 90%;
+    margin: -16px auto 10px auto;
+    border-top: 1px solid #dce0e0;
+  }
 
-      &.left {
-        float:left;
-      }
-
-      &.right {
-        float:right;
-      }
-    }
+  .signup-or-separator .text {
+    display: inline-block;
+    padding: 8px;
+    margin: 0;
+    background-color: #fff;
   }
 
   .internal-account {
@@ -59,22 +58,17 @@
 
     input {
       height: 40px;
-      width: 500px;
 
       &:nth-child(2) {
         margin-top: 10px;
       }
     }
 
-    button {
+    .btn {
       align-self: center;
       margin-top: 15px;
       height: 50px;
       width: 300px;
-      border-style: none;
-      border-radius: 3px;
-      background: #758ab6;
-      color: #fff;
     }
   }
 }
