@@ -63,12 +63,12 @@ gulp.task('build', [
 ]);
 
 gulp.task('start-server', getTask('start-server'));
+gulp.task('watch', getTask('watch'));
 
 if (argv.production) {
   gulp.task('start', ["start-server"], getTask('start-client'));
 } else {
-  gulp.task('start', ["start-server"], getTask('start-client'));
-  //gulp.task('start', getTask('watch'));
+  gulp.task('start', ["start-server"], getTask('watch'));
 }
 
 gulp.task('default', ["clean"], function() {

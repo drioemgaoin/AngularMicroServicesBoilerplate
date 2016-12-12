@@ -14,6 +14,7 @@ module.exports = function(gulp, plugins, config) {
         .on('finish', function() {
           plugins.nodemon({
             script: root + '/server.js',
+            watch: root,
             ext: 'js html',
             env: { 'NODE_ENV': 'development' }
           });

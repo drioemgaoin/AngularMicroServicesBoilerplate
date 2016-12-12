@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Token-based authentication module for AngularJS using satellizer",
   "scripts": {
-    "start": "npm install express && node server/server.js"
+    "start": "nodemon server/server.js"
   },
   "author": "Romain Diegoni",
   "license": "ISC",
