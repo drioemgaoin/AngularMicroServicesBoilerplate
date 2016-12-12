@@ -16,7 +16,7 @@ module.exports = function(gulp, plugins, config, options) {
 
     return gulp.src(mainBowerFiles({
           paths: config.componentRoot,
-          filter: '**/*.scss',
+          filter: ['**/*.css'],
           overrides: config.bowerOverrides
         }), { base: './' })
         .pipe(plugins.sass())
