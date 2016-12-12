@@ -59,3 +59,7 @@ $urlRouterProvider.otherwise('/');
 $authProvider.facebook({
   clientId: '212322639214701'
 });
+
+$authProvider.google({
+  clientId: '521741334857-q8d09bhm798903rmck85bas44qhvm7se.apps.googleusercontent.com'
+});
