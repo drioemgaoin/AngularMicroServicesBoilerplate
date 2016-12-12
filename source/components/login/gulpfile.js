@@ -27,12 +27,7 @@ gulp.task("build-images", build.buildImages());
 
 gulp.task("build-fonts", build.buildFonts());
 
-gulp.task("build-internal-scripts", ['lint'], function() {
-  return mergeStream(
-    build.buildInternalScript('client')(),
-    build.buildInternalScript('server', { minify: false })()
-  );
-});
+gulp.task("build-internal-scripts", ['lint'], build.buildInternalScript('client'));
 
 gulp.task("build-external-scripts", build.buildExternalScript());
 
@@ -49,18 +44,24 @@ gulp.task('lint', function() {
   );
 });
 
-gulp.task('build-server', build.buildServer());
+gulp.task('build-server', function() {
+  return mergeStream(
+    build.buildInternalScript('server', { minify: false })(),
+    build.buildServer()()
+  );
+});
 
-gulp.task('build', [
+gulp.task('build-client', [
     "build-internal-scripts",
     "build-external-scripts",
     "build-views",
     "build-internal-styles",
     "build-external-styles",
     "build-fonts",
-    "build-images",
-    "build-server"
+    "build-images"
 ]);
+
+gulp.task('build', ['build-client', 'build-server'])
 
 gulp.task('start-server', getTask('start-server'));
 gulp.task('watch', getTask('watch'));
