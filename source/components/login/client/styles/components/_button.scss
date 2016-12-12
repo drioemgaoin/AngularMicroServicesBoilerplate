@@ -1,3 +1,17 @@
 // -----------------------------------------------------------------------------
 // This file contains all styles related to the button component.
 // -----------------------------------------------------------------------------
+.btn {
+  font-weight: bold;
+  border-radius: 2px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #4285f4;
+  border-color: #357ebd;
+}
