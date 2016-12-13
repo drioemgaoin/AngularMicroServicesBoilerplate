@@ -20,6 +20,7 @@ app.use(express.static(path.join(__dirname, '../client')));
 var container = intravenous.create();
 require('./installer/installer')(container);
 require('./installer/controllerInstaller')(container, app);
+require('./installer/datasProvider');
 
 app.listen(app.get('port'), app.get('host'), function() {
   console.log('Express server listening on port ' + app.get('port'));

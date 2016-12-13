@@ -1,13 +1,29 @@
 'use strict';
 
-var authenticationController = function(tokenHelper, app) {
+var authenticationController = function(userRepository, tokenHelper, app) {
+
+  app.post('/auth/login', function(req, res) {
+    userRepository.get(req.body.email, req.body.password, function(result) {
+      if (result.code) {
+        res.status(result.code).send({ message: result.message });
+      } else {
+        res.send(result);
+      }
+    });
+  });
 
   app.post('/auth/signup', function(req, res) {
-    // TODO: save the user in mongodb
+    userRepository.add(req.body.displayName, req.body.email, req.body.password, function(result) {
+      if (result.code) {
+        res.status(result.code).send({ message: res.message });
+      } else {
+        res.send(result);
+      }
+    });
   });
 
 };
 
-authenticationController.$inject = ["tokenHelper"];
+authenticationController.$inject = ["userRepository", "tokenHelper"];
 
 module.exports = authenticationController;
