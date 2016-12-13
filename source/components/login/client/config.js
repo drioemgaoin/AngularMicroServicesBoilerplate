@@ -61,5 +61,5 @@ $authProvider.facebook({
 });
 
 $authProvider.google({
-  clientId: '521741334857-q8d09bhm798903rmck85bas44qhvm7se.apps.googleusercontent.com'
+  clientId: '232678778980-v1o36t8rr4pufgs7nr207j29g7rnu414.apps.googleusercontent.com'
 });
