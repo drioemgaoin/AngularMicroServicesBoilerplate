@@ -8,16 +8,10 @@ module.exports = function(gulp, plugins, config) {
         config.server.basePath,
         config.server.deployment.root);
 
-      return gulp.src(root + "/package.json")
-        .pipe(plugins.install())
-        .pipe(gulp.dest(root))
-        .on('finish', function() {
-          plugins.nodemon({
-            script: root + '/server.js',
-            watch: root,
-            ext: 'js html',
-            env: { 'NODE_ENV': 'development' }
-          });
-        })
+      plugins.nodemon({
+        script: root + '/server.js',
+        watch: root,
+        ext: 'js'
+      });
     };
 };

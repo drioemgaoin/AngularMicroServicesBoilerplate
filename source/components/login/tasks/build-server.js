@@ -9,5 +9,7 @@ module.exports = function(gulp, plugins, config) {
 
     return gulp.src(packageJson)
       .pipe(gulp.dest(dest))
+      .pipe(plugins.install())
+      .pipe(gulp.dest(dest));
   };
 };

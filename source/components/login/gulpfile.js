@@ -14,12 +14,11 @@ function getTask(task) {
     return require('./tasks/' + task)(gulp, plugins, gulpConfig);
 }
 
-gulp.task("clean", function() {
-  return mergeStream(
-    build.clean('client')(),
-    build.clean('server')()
-  );
-});
+gulp.task("clean-client", build.clean('client'));
+
+gulp.task("clean-server", build.clean('server'));
+
+gulp.task("clean", ['clean-client', 'clean-server']);
 
 gulp.task("build-views", build.buildViews());
 
@@ -37,12 +36,11 @@ gulp.task("build-external-styles", build.buildExternalStyle());
 
 gulp.task('inject', getTask('inject'));
 
-gulp.task('lint', function() {
-  return mergeStream(
-    build.lint('client')(),
-    build.lint('server')()
-  );
-});
+gulp.task('lint-client', build.lint('client'));
+
+gulp.task('lint-server', build.lint('server'));
+
+gulp.task('lint', ['lint-server', 'lint-client']);
 
 gulp.task('build-server', function() {
   return mergeStream(
@@ -63,14 +61,11 @@ gulp.task('build-client', [
 
 gulp.task('build', ['build-client', 'build-server'])
 
-gulp.task('start-server', getTask('start-server'));
-gulp.task('watch', getTask('watch'));
-
-if (argv.production) {
-  gulp.task('start', ["start-server"], getTask('start-client'));
-} else {
-  gulp.task('start', ["start-server"], getTask('watch'));
-}
+gulp.task('watch-client', getTask('watch-client'));
+gulp.task('watch-server', getTask('watch-server'));
+gulp.task('start-client', [argv.production ? '' : 'watch-client'], getTask('start-client'));
+gulp.task('start-server', [argv.production ? '' : 'watch-server'], getTask('start-server'));
+gulp.task('start', ["start-server", "start-client"]);
 
 gulp.task('default', ["clean"], function() {
     runSequence("build", "inject", "start");
