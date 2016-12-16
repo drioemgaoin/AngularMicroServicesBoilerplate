@@ -1,6 +1,5 @@
 'use strict';
 
-var argv = require('yargs').argv;
 var fs = require('fs');
 var path = require('path');
 var util = require("util");
@@ -106,8 +105,34 @@ module.exports = function(gulp, plugins) {
     return item;
   }
 
+  function copy(source, componentName) {
+    var target = {};
+    for (var prop in source) {
+        if (typeof source[prop] === 'string' || source[prop] instanceof Array) {
+          target[prop] = replace(source[prop], prop, componentName);
+        } else {
+          target[key] = copy(source[prop], componentName);
+        }
+    }
+    return target;
+}
+
+
   function merge(root, components, base) {
     var result = {};
+    if (!root) {
+      result[key] = components
+        .map(function(componentConfig) {
+          return copy(componentConfig.config, componentConfig.component);
+        });
+
+      if (result[key].length === 1) {
+        return result[key][0];
+      }
+
+      return result[key];
+    }
+
     for (var key in root) {
       if (typeof root[key] === 'string') {
 
@@ -195,67 +220,75 @@ module.exports = function(gulp, plugins) {
   function initialize(root, options, target) {
     for (var key in root) {
       if (root[key].taskName) {
-        //if (root[key].config) {
+        var componentConfigs = componentBuildConfigs
+          .map(function(componentBuildConfig) {
+            var currentComponentConfig = target === 'client'
+              ? componentBuildConfig.config.client
+              : componentBuildConfig.config.server;
 
-          var componentConfigs = componentBuildConfigs
-            .map(function(componentBuildConfig) {
-              var config = find(componentBuildConfig.config, "taskName", root[key].taskName)[0];
+            var config = find(currentComponentConfig, "taskName", root[key].taskName)[0];
 
-              if (config.config) {
-                return {
-                  component: componentBuildConfig.component,
-                  config: config.config
-                }
+            if (config.config) {
+              return {
+                component: componentBuildConfig.component,
+                config: config.config
               }
-            });
-
-          // console.log("COMPONENT " + util.inspect(componentConfigs, {showHidden: false, depth: null }));
-          // console.log("ROOT " + util.inspect(rootConfig, {showHidden: false, depth: null }));
-
-          var rootConfig = merge(root[key].config, componentConfigs);
-          //console.log("RESULT " + util.inspect(rootConfig, {showHidden: false, depth: null }));
-
-          tasks.push({
-            name: root[key].taskName + "-" + target,
-            core: require("./tasks/" + root[key].taskName)(gulp, plugins, rootConfig)
+            }
           });
-        //}
+
+        var rootConfig = merge(root[key].config, componentConfigs);
+
+        tasks.push({
+          name: root[key].taskName + "-" + target,
+          core: require("./tasks/" + root[key].taskName)(gulp, plugins, rootConfig)
+        });
       } else {
         initialize(root[key], options, target);
       }
     }
   };
 
+  initialize(buildConfig.client, {}, 'client');
+  initialize(buildConfig.server, {}, 'server');
+
+  for(var task in tasks) {
+    gulp.task(tasks[task].name, tasks[task].core);
+  }
+
   return {
-    buildClient: function(options) {
-      initialize(buildConfig.client, options, 'client');
-
-      for (var task in tasks) {
-        gulp.task(tasks[task].name, tasks[task].core);
-      }
-
+    buildClient: function(cb) {
       return runSequence(
         'clean-client',
-        'build-views-client',
-        'build-fonts-client',
-        'build-images-client',
-        'build-internal-scripts-client',
-        'build-internal-styles-client',
-        'build-external-scripts-client',
-        'build-external-styles-client',
-        "inject-client"
+        [
+          'build-views-client',
+          'build-fonts-client',
+          'build-images-client',
+          'build-internal-scripts-client',
+          'build-internal-styles-client',
+          'build-external-scripts-client',
+          'build-external-styles-client'
+        ],
+        "inject-client",
+        cb
       );
     },
-    buildServer: function(options) {
-      initialize(buildConfig.server, options, 'server');
-
-      for(var task in tasks) {
-        gulp.task(tasks[task].name, tasks[task].core);
-      }
-
+    buildServer: function(cb) {
       return runSequence(
         'clean-server',
-        'build-internal-scripts-server'
+        'build-internal-scripts-server',
+        cb
+      );
+    },
+    startClient: function(cb) {
+      return runSequence(
+        'start-client-client',
+        cb
+      );
+    },
+    startServer: function(cb) {
+      return runSequence(
+        'start-server-server',
+        cb
       );
     }
   };

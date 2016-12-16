@@ -8,7 +8,7 @@ module.exports = function(gulp, plugins) {
   var runSequence  = require('run-sequence').use(gulp);
 
   var tasks = [];
-  function initialize(gulp, plugins, root, options, target) {
+  function initialize(root, options, target) {
     for (var key in root) {
       if (root[key].taskName) {
         if (root[key].config) {
@@ -19,13 +19,13 @@ module.exports = function(gulp, plugins) {
           })
         }
       } else {
-        initialize(gulp, plugins, root[key], options, target);
+        initialize(root[key], options, target);
       }
     }
   }
 
-  initialize(gulp, plugins, buildConfig.client, {}, 'client');
-  initialize(gulp, plugins, buildConfig.server, {}, 'server');
+  initialize(buildConfig.client, {}, 'client');
+  initialize(buildConfig.server, {}, 'server');
 
   for(var task in tasks) {
     gulp.task(tasks[task].name, tasks[task].core);
@@ -56,14 +56,12 @@ module.exports = function(gulp, plugins) {
       );
     },
     startClient: function(cb) {
-      console.log("START CLIENT");
       return runSequence(
         'start-client-client',
         cb
       );
     },
     startServer: function(cb) {
-      console.log("START SERVER");
       return runSequence(
         'start-server-server',
         cb

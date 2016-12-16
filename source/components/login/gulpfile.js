@@ -3,11 +3,7 @@
 var gulp = require('gulp');
 var plugins = require('gulp-load-plugins')();
 var runSequence = require('run-sequence').use(gulp);
-var mergeStream = require('merge-stream');
-var parallel = require('run-parallel');
-var argv = require('yargs').argv;
 
-var gulpConfig = require("./gulpconfig.json");
 var build = require("./build.js")(gulp, plugins);
 
 gulp.task('build-server', build.buildServer);

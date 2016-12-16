@@ -94,6 +94,12 @@
           "styles": "./dist/client/css"
         }
       }
+    },
+    "start": {
+      "taskName": "start-client",
+      "config": {
+        "source": "./dist/client"
+      }
     }
   },
   "server": {
@@ -109,6 +115,9 @@
           "taskName": "build-internal-scripts"
         }
       }
+    },
+    "start": {
+      "taskName": "start-server"
     }
   }
 }
