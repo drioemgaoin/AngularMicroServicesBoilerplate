@@ -5,23 +5,38 @@ var mergeStream = require('merge-stream');
 
 module.exports = function(gulp, plugins, config) {
     return function() {
-      var componentManager = require("../source/componentManager")(gulp, plugins, "source/components");
-      var source = path.join(config.client.basePath, config.client.build.root, config.client.build.views);
-      var dest = path.join(config.client.deployment.root, config.client.deployment.views);
-
       var isMainPage = function (file) {
-        var source = path.join(config.client.build.root, "/views/index.html");
-        return file.path.endsWith(source);
+          return file.path.endsWith("index.html");
       };
 
-      return mergeStream(
-        componentManager.buildViews()(),
-        gulp.src(source)
-      )
-      .pipe(plugins.ignore.exclude(function(file) {
-        return file.path.indexOf("/components/") !== -1 &&
-          file.path.endsWith("/views/index.html");
-      }))
-      .pipe(plugins.if(isMainPage, gulp.dest(config.client.deployment.root), gulp.dest(dest)));
+      function getSources(root) {
+        if (root instanceof Array) {
+          return root
+            .map(function(source) {
+              return gulp.src(source);
+            });
+        }
+
+        return gulp.src(root);
+      };
+
+      var sources = getSources(config.source);
+      return (sources.length > 1 ? mergeStream(sources) : sources[0])
+          .pipe(plugins.sort({
+            comparator: function(file1, file2) {
+              if (file1.path.indexOf('components') > -1) {
+                return -1;
+              }
+
+              if (file2.path.indexOf('components') > -1) {
+                  return 1;
+              }
+
+              return 0;
+            }
+          }))
+          .pipe(plugins.flatten())
+          .pipe(plugins.dedupe({ same: false }))
+          .pipe(plugins.if(isMainPage, gulp.dest(config.destination.main), gulp.dest(config.destination.other)));
     };
 };

@@ -6,18 +6,22 @@ var mergeStream = require('merge-stream');
 
 module.exports = function(gulp, plugins, config) {
     return function() {
-        var componentManager = require("../source/componentManager")(gulp, plugins, "source/components");
-        var source = path.join(config.client.basePath, config.client.build.root, config.client.build.styles);
-        var dest = path.join(config.client.deployment.root, config.client.deployment.styles);
+      function getSources(root) {
+        if (root instanceof Array) {
+          return root
+            .map(function(source) {
+              return gulp.src(source);
+            });
+        }
 
-        return mergeStream(
-          gulp.src(source)
-            .pipe(plugins.sass())
-            .pipe(plugins.if(argv.production, plugins.csso()))
-            .pipe(plugins.flatten()),
-          componentManager.buildInternalStyle()()
-        )
-        .pipe(plugins.concat('main.css'))
-        .pipe(gulp.dest(dest));
+        return gulp.src(root);
+      };
+
+      var sources = getSources(config.source);
+      return (sources instanceof Array ? mergeStream(sources) : sources)
+        .pipe(plugins.sass())
+        .pipe(plugins.if(argv.production, plugins.csso()))
+        .pipe(plugins.flatten())
+        .pipe(gulp.dest(config.destination));
     };
 };

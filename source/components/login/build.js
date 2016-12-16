@@ -1,57 +1,73 @@
 'use strict';
 
 var argv = require('yargs').argv;
-var config = require('./gulpconfig.json');
-config.client.basePath = argv.integrated ? __dirname : config.client.basePath;
-config.server.basePath = argv.integrated ? __dirname : config.server.basePath;
+var buildConfig = require('./buildConfig.json');
 
 module.exports = function(gulp, plugins) {
+
+  var runSequence  = require('run-sequence').use(gulp);
+
+  var tasks = [];
+  function initialize(gulp, plugins, root, options, target) {
+    for (var key in root) {
+      if (root[key].taskName) {
+        if (root[key].config) {
+          var task = require('./tasks/' + root[key].taskName);
+          tasks.push({
+            name: root[key].taskName + "-" + target,
+            core: require("./tasks/" + root[key].taskName)(gulp, plugins, root[key].config)
+          })
+        }
+      } else {
+        initialize(gulp, plugins, root[key], options, target);
+      }
+    }
+  }
+
+  initialize(gulp, plugins, buildConfig.client, {}, 'client');
+  initialize(gulp, plugins, buildConfig.server, {}, 'server');
+
+  for(var task in tasks) {
+    gulp.task(tasks[task].name, tasks[task].core);
+  }
+
   return {
-    clean: function(type) {
-      var task = require('./tasks/clean');
-      return type === 'client'
-        ? task(gulp, plugins, config.client)
-        : task(gulp, plugins, config.server);
+    buildClient: function(cb) {
+      return runSequence(
+        'clean-client',
+        [
+          'build-views-client',
+          'build-fonts-client',
+          'build-images-client',
+          'build-internal-scripts-client',
+          'build-internal-styles-client',
+          'build-external-scripts-client',
+          'build-external-styles-client'
+        ],
+        "inject-client",
+        cb
+      );
     },
-    buildInternalScript: function(type, options) {
-      var task = require('./tasks/build-internal-scripts');
-      return type === 'client'
-        ? task(gulp, plugins, config.client, options)
-        : task(gulp, plugins, config.server, options);
+    buildServer: function(cb) {
+      return runSequence(
+        'clean-server',
+        'build-internal-scripts-server',
+        cb
+      );
     },
-    buildInternalStyle: function(options) {
-      var task = require('./tasks/build-internal-styles');
-      return task(gulp, plugins, config.client, options);
+    startClient: function(cb) {
+      console.log("START CLIENT");
+      return runSequence(
+        'start-client-client',
+        cb
+      );
     },
-    buildExternalScript: function(options) {
-      var task = require('./tasks/build-external-scripts');
-      return task(gulp, plugins, config.client, options);
-    },
-    buildExternalStyle: function(options) {
-      var task = require('./tasks/build-external-styles');
-      return task(gulp, plugins, config.client, options);
-    },
-    buildViews: function(options) {
-      var task = require('./tasks/build-views');
-      return task(gulp, plugins, config.client, options);
-    },
-    buildImages: function(options) {
-      var task = require('./tasks/build-images');
-      return task(gulp, plugins, config.client, options);
-    },
-    buildFonts: function(options) {
-      var task = require('./tasks/build-fonts');
-      return task(gulp, plugins, config.client, options);
-    },
-    buildServer: function() {
-      var task = require('./tasks/build-server');
-      return task(gulp, plugins, config.server);
-    },
-    lint: function(type) {
-      var task = require('./tasks/lint');
-      return type === 'client'
-        ? task(gulp, plugins, config.client)
-        : task(gulp, plugins, config.server);
+    startServer: function(cb) {
+      console.log("START SERVER");
+      return runSequence(
+        'start-server-server',
+        cb
+      );
     }
   };
 };

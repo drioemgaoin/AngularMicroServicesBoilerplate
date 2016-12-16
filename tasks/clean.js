@@ -1,10 +1,9 @@
 'use strict';
 
-module.exports = function(gulp, plugins, config) {
-    return function() {
-      var componentManager = require("../source/componentManager")(gulp, plugins, "source/components");
+var del = require('del');
 
-      return componentManager.clean('client')()
-        .on('end', componentManager.clean('server'));
-    };
+module.exports = function(gulp, plugins, config) {
+  return function() {
+    return del.sync(config.destination + "/*");
+  };
 };

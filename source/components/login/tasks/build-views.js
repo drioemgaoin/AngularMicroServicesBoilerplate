@@ -1,25 +1,29 @@
 'use strict';
 
 var path = require('path');
+var mergeStream = require('merge-stream');
 
-module.exports = function(gulp, plugins, config, options) {
+module.exports = function(gulp, plugins, config) {
   return function() {
-    options = options || { dest: true };
-
-    if (options.dest === undefined) {
-      options.dest = true;
-    }
-
-    var source = path.join(config.basePath, config.build.root, config.build.views);
-    var dest = path.join(config.deployment.root, config.deployment.views);
-
     var isMainPage = function (file) {
-        var source = path.join(config.build.root, "/views/index.html");
-        return file.path.endsWith(source);
+        return file.path.endsWith("/views/index.html");
     };
 
-    return gulp.src(source)
-        .pipe(plugins.flatten( { includeParents: 1 }))
-        .pipe(plugins.if(options.dest, plugins.if(isMainPage, gulp.dest(config.deployment.root), gulp.dest(dest))));
+    function getSources(root) {
+      if (root instanceof Array) {
+        return root
+          .map(function(source) {
+            return gulp.src(source);
+          });
+      }
+
+      return gulp.src(root);
+    };
+
+    var sources = getSources(config.source);
+    return (sources instanceof Array ? mergeStream(sources) : sources)
+        .pipe(plugins.flatten())
+        .pipe(plugins.dedupe({ same: false }))
+        .pipe(plugins.if(isMainPage, gulp.dest(config.destination.main), gulp.dest(config.destination.other)));
   };
 };

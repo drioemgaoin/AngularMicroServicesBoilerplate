@@ -4,27 +4,32 @@ var argv = require('yargs').argv;
 var mergeStream = require('merge-stream');
 var path = require('path');
 var mainBowerFiles = require('main-bower-files');
+var mainDedupe = require('../../../../gulp-main-dedupe');
 
-module.exports = function(gulp, plugins, config, options) {
+module.exports = function(gulp, plugins, config) {
   return function() {
-    options = options || { minify: true, dest: true };
+    function getSources(root) {
+      if (root instanceof Array) {
+        return root
+          .map(function(source) {
+            return gulp.src(mainBowerFiles({
+                  paths: source,
+                  filter: '**/*.js',
+                  overrides: config.bowerOverrides
+                }), { base: './' });
+          });
+      }
 
-    if (options.minify === undefined) {
-      options.minify = true;
-    }
-
-    if (options.dest === undefined) {
-      options.dest = true;
-    }
-
-    var dest = path.join(config.deployment.root, config.deployment.scripts);
-
-    return mergeStream(
-      gulp.src(mainBowerFiles({
-            paths: config.componentRoot,
+      return gulp.src(mainBowerFiles({
+            paths: root,
             filter: '**/*.js',
             overrides: config.bowerOverrides
-          }), { base: './' }),
+          }), { base: './' });
+    };
+
+    var sources = getSources(config.source);
+    return mergeStream(
+      (sources instanceof Array ? mergeStream(sources) : sources),
       gulp.src(plugins.mainNpmFiles({
         nodeModulesPath: "../node_modules",
         packageJsonPath: "../package.json"
@@ -33,6 +38,7 @@ module.exports = function(gulp, plugins, config, options) {
     )
     .pipe(plugins.if(argv.production, plugins.uglify()))
     .pipe(plugins.flatten())
+    .pipe(mainDedupe({ same: false }))
     .pipe(plugins.order([
         "jquery.js",
         "jquery*.js",
@@ -41,7 +47,7 @@ module.exports = function(gulp, plugins, config, options) {
         "*.js"
         ], { base: './' })
     )
-    .pipe(plugins.if(options.minify, plugins.concat('vendor.js')))
-    .pipe(plugins.if(options.dest, gulp.dest(dest)));
-  }
+    .pipe(plugins.concat(config.fileName))
+    .pipe(gulp.dest(config.destination));
+  };
 };

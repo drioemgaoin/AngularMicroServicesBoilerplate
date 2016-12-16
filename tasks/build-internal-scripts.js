@@ -3,30 +3,78 @@
 var argv = require('yargs').argv;
 var path = require('path');
 var mergeStream = require('merge-stream');
-var generateRoute = require('./generate-route');
+var mainDedupe = require('../gulp-main-dedupe');
 
 module.exports = function(gulp, plugins, config) {
   return function() {
-    var componentManager = require("../source/componentManager")(gulp, plugins, "source/components");
 
-    var sources = config.client.build.scripts.map(function(script) {
-      return script.replace("{0}", path.join(config.client.basePath, config.client.build.root));
-    });
-    var clientDest = path.join(config.client.deployment.root, config.client.deployment.scripts);
+    function getSources(root) {
+      if (root instanceof Array) {
+        return root
+          .map(function(source) {
+            return gulp.src(source);
+          });
+      }
 
-    return mergeStream(
-        generateRoute(gulp, plugins, config)().pipe(plugins.concat('route')),
-        componentManager.buildInternalScript('client')().pipe(plugins.concat('component')),
-        gulp.src(sources)
-          .pipe(plugins.if(argv.production, plugins.uglify({ mangle: false })))
-          .pipe(plugins.concat('root'))
-      )
-      .pipe(plugins.order(['route', 'root', 'component']))
-      .pipe(plugins.concat('internal.js'))
-      .pipe(gulp.dest(clientDest))
-      .on('end', function() {
-        componentManager.buildInternalScript('server')()
-          .pipe(gulp.dest(config.server.deployment.root))
+      return gulp.src(root);
+    };
+
+    function injectRoutes() {
+      var routeSources = getSources(config.routes.source);
+
+      var streams = (routeSources.length > 1 ? mergeStream(routeSources) : routeSources);
+      return plugins.inject(streams
+        .pipe(mainDedupe({ same: false, fullPath: false })), {
+        starttag: '/* inject:routes */',
+        endtag: '/* endinject */',
+        removeTags: true,
+        transform: function(filePath, file) {
+          var content = file.contents.toString('utf8');
+          return content.substring(
+            content.indexOf("{") + 1,
+            content.lastIndexOf("}"));
+        }
       });
+    };
+
+    var sources = getSources(config.source);
+
+    const appFilter = plugins.filter(['**/app.js', '!source/components/**/app.js'], {restore: true});
+    const injectFilter = plugins.filter(['**/*.js', '!source/components/**/app.js', '!source/components/**/routes/**/*.*']);
+
+    return (sources.length > 1 ? mergeStream(sources) : sources)
+      .pipe(appFilter)
+      .pipe(plugins.ifElse(config.routes, injectRoutes))
+      .pipe(appFilter.restore)
+      .pipe(injectFilter)
+      .pipe(plugins.sort({
+        comparator: function(file1, file2) {
+          if (file1.path.indexOf('components') > -1) {
+            return 1;
+          }
+
+          if (file2.path.indexOf('components') > -1) {
+              return -1;
+          }
+
+          return 0;
+        }
+      }))
+      .pipe(mainDedupe({ same: false, fullPath: false }))
+      .pipe(plugins.sort({
+        comparator: function(file1, file2) {
+          if (file1.relative === 'app.js') {
+            return -1;
+          }
+
+          if (file2.relative === 'app.js') {
+              return 1;
+          }
+
+          return 0;
+        }
+      }))
+      .pipe(plugins.ifElse(config.fileName, function() { return plugins.concat(config.fileName); }))
+      .pipe(gulp.dest(config.destination));
   };
 };

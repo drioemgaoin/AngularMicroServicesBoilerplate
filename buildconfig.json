@@ -1,0 +1,114 @@
+{
+  "client": {
+    "clean": {
+      "taskName": "clean",
+      "config": {
+        "destination": "./dist/client"
+      }
+    },
+    "build": {
+      "views": {
+        "taskName": "build-views",
+        "config": {
+          "source": ["./source/views/**/*.html", "!./source/components/**/*.*"],
+          "destination": {
+              "main": "./dist/client",
+              "other": "./dist/client/views"
+          }
+        }
+      },
+      "fonts": {
+        "taskName": "build-fonts",
+        "config": {
+          "source": "./",
+          "destination": "./dist/client/fonts",
+          "bowerOverrides": {
+            "font-awesome": {
+              "main": "./fonts/*"
+            }
+          }
+        }
+      },
+      "images": {
+        "taskName": "build-images",
+        "config": {
+          "source": ["./source/images/**/*.{jpg,jpeg,png,gif}", "!./source/components/**/*.*"],
+          "destination": "./dist/client/images"
+        }
+      },
+      "scripts": {
+        "internal": {
+          "taskName": "build-internal-scripts",
+          "config": {
+            "fileName": "internal.js",
+            "source": [
+              "./source/**/*.js",
+              "!./source/routes/**/*.js",
+              "!./source/config.js",
+              "!./source/componentManager.js",
+              "!./source/components/**/*.*"
+            ],
+            "routes": {
+              "source": ["./source/routes/**/*.js" , "!./source/component/**/*.*"],
+              "destination": "./source/app.js"
+            },
+            "destination": "./dist/client/scripts"
+          }
+        },
+        "external": {
+          "taskName": "build-external-scripts",
+          "config": {
+            "fileName": "vendor.js",
+            "source": "./",
+            "destination": "./dist/client/scripts"
+          }
+        }
+      },
+      "styles": {
+        "internal": {
+          "taskName": "build-internal-styles",
+          "config": {
+            "source": "./source/styles/**/*.scss",
+            "destination": "./dist/client/css"
+          }
+        },
+        "external": {
+          "taskName": "build-external-styles",
+          "config": {
+            "source": "./",
+            "destination": "./dist/client/css",
+            "bowerOverrides": {
+              "font-awesome": {
+                "main": "./scss/font-awesome.scss"
+              }
+            }
+          }
+        }
+      },
+      "inject": {
+        "taskName": "inject",
+        "config": {
+          "destination": "./dist/client",
+          "source": "./dist/client/index.html",
+          "scripts": "./dist/client/scripts",
+          "styles": "./dist/client/css"
+        }
+      }
+    }
+  },
+  "server": {
+    "clean": {
+      "taskName": "clean",
+      "config": {
+        "destination": "./dist/server"
+      }
+    },
+    "build": {
+      "scripts": {
+        "internal": {
+          "taskName": "build-internal-scripts"
+        }
+      }
+    }
+  }
+}

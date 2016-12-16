@@ -1,8 +1,9 @@
 'use strict';
 
+var del = require('del');
+
 module.exports = function(gulp, plugins, config) {
-  return function () {
-    return gulp.src(config.deployment.root, {read: false})
-        .pipe(plugins.clean());
+  return function() {
+    return del.sync(config.destination + "/*");
   };
 };
