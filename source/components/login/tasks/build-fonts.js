@@ -28,7 +28,7 @@ module.exports = function(gulp, plugins, config) {
     var sources = getSources(config.source);
     return (sources instanceof Array ? mergeStream(sources) : sources)
         .pipe(plugins.flatten())
-        .pipe(plugins.dedupe({ same: false }))
+        .pipe(plugins.mainDedupe({ same: false }))
         .pipe(gulp.dest(config.destination));
   };
 };

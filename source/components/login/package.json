@@ -39,6 +39,7 @@
     "gulp-inject": "4.1.0",
     "gulp-install": "0.6.0",
     "gulp-jshint": "2.0.4",
+    "gulp-main-dedupe": "0.0.2",
     "gulp-main-npm-files": "1.0.5",
     "gulp-nodemon": "2.2.1",
     "gulp-order": "1.1.1",

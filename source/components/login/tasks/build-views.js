@@ -2,7 +2,6 @@
 
 var path = require('path');
 var mergeStream = require('merge-stream');
-var mainDedupe = require('../../../../gulp-main-dedupe');
 
 module.exports = function(gulp, plugins, config) {
   return function() {
@@ -24,7 +23,7 @@ module.exports = function(gulp, plugins, config) {
     var sources = getSources(config.source);
     return (sources instanceof Array ? mergeStream(sources) : sources)
         .pipe(plugins.flatten())
-        .pipe(mainDedupe({ fullpath: false, same: false }))
+        .pipe(plugins.mainDedupe({ fullpath: false, same: false }))
         .pipe(plugins.if(isMainPage, gulp.dest(config.destination.main), gulp.dest(config.destination.other)));
   };
 };

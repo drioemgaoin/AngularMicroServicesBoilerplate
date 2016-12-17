@@ -4,7 +4,6 @@ var argv = require('yargs').argv;
 var mergeStream = require('merge-stream');
 var path = require('path');
 var mainBowerFiles = require('main-bower-files');
-var mainDedupe = require('../../../../gulp-main-dedupe');
 
 module.exports = function(gulp, plugins, config) {
   return function() {
@@ -54,7 +53,7 @@ module.exports = function(gulp, plugins, config) {
     )
     .pipe(plugins.if(argv.production, plugins.uglify()))
     .pipe(plugins.flatten())
-    .pipe(mainDedupe({ same: false }))
+    .pipe(plugins.mainDedupe({ same: false }))
     .pipe(plugins.order([
         "jquery.js",
         "jquery*.js",

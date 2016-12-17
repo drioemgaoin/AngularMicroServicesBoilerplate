@@ -29,7 +29,7 @@ module.exports = function(gulp, plugins, config) {
     var sources = getSources(config.source);
     return (sources.length > 1 ? mergeStream(sources) : sources[0])
         .pipe(plugins.flatten())
-        .pipe(plugins.dedupe({ same: false }))
+        .pipe(plugins.mainDedupe({ same: false }))
         .pipe(gulp.dest(config.destination));
   };
 };

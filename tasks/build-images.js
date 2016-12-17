@@ -25,7 +25,7 @@ module.exports = function(gulp, plugins, config) {
         interlaced: true
       }))
       .pipe(plugins.flatten())
-      .pipe(plugins.dedupe({ same: false }))
+      .pipe(plugins.mainDedupe({ same: false }))
       .pipe(gulp.dest(config.destination))
       .pipe(plugins.size());
   };

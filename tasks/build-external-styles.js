@@ -4,7 +4,6 @@ var argv = require('yargs').argv;
 var path = require('path');
 var mergeStream = require('merge-stream');
 var mainBowerFiles = require('main-bower-files');
-var mainDedupe = require('../gulp-main-dedupe');
 
 module.exports = function(gulp, plugins, config, options) {
   return function() {
@@ -32,7 +31,7 @@ module.exports = function(gulp, plugins, config, options) {
         .pipe(plugins.sass())
         .pipe(plugins.if(argv.production, plugins.csso()))
         .pipe(plugins.flatten())
-        .pipe(mainDedupe({ same: false }))
+        .pipe(plugins.mainDedupe({ same: false }))
         .pipe(gulp.dest(config.destination));
   };
 };

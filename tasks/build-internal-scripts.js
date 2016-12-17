@@ -3,7 +3,6 @@
 var argv = require('yargs').argv;
 var path = require('path');
 var mergeStream = require('merge-stream');
-var mainDedupe = require('../gulp-main-dedupe');
 
 module.exports = function(gulp, plugins, config) {
   return function() {
@@ -24,7 +23,7 @@ module.exports = function(gulp, plugins, config) {
 
       var streams = (routeSources.length > 1 ? mergeStream(routeSources) : routeSources);
       return plugins.inject(streams
-        .pipe(mainDedupe({ same: false, fullPath: false })), {
+        .pipe(plugins.mainDedupe({ same: false, fullPath: false })), {
         starttag: '/* inject:routes */',
         endtag: '/* endinject */',
         removeTags: true,
@@ -60,7 +59,7 @@ module.exports = function(gulp, plugins, config) {
           return 0;
         }
       }))
-      .pipe(mainDedupe({ same: false, fullPath: false }))
+      .pipe(plugins.mainDedupe({ same: false, fullPath: false }))
       .pipe(plugins.sort({
         comparator: function(file1, file2) {
           if (file1.relative === 'app.js') {

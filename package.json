@@ -38,6 +38,7 @@
     "gulp-jshint": "^2.0.4",
     "gulp-livereload": "3.8.1",
     "gulp-load-plugins": "^1.4.0",
+    "gulp-main-dedupe": "0.0.2",
     "gulp-main-npm-files": "1.0.5",
     "gulp-nodemon": "2.2.1",
     "gulp-npm-files": "0.1.3",

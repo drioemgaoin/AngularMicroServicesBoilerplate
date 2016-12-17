@@ -1,12 +1,11 @@
 'use strict';
 
 var path = require('path');
-var mainDedupe = require('../gulp-main-dedupe');
 
 module.exports = function(gulp, plugins, config) {
   return function() {
     return gulp.src(config.source)
-      .pipe(mainDedupe({ fullpath: false, same: false }))
+      .pipe(plugins.mainDedupe({ fullpath: false, same: false }))
       .pipe(plugins.inject(
           gulp.src(config.scripts + '/**/*.js', {read: false})
               .pipe(plugins.order(["vendor.js", "internal.js"])), {
