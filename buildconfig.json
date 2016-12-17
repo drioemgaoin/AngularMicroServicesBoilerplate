@@ -103,6 +103,12 @@
       "config": {
         "root": "./dist/client"
       }
+    },
+    "watch": {
+      "taskName": "watch-client",
+      "config": {
+        "source": ["./source", "!./source/components"]
+      }
     }
   },
   "server": {
@@ -131,6 +137,9 @@
       "config": {
         "root": "./dist/server"
       }
+    },
+    "watch": {
+      "taskName": "watch-server"
     }
   }
 }

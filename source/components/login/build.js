@@ -61,12 +61,14 @@ module.exports = function(gulp, plugins) {
     startClient: function(cb) {
       return runSequence(
         'start-client-client',
+        'watch-client-client',
         cb
       );
     },
     startServer: function(cb) {
       return runSequence(
         'start-server-server',
+        'watch-server-server',
         cb
       );
     }

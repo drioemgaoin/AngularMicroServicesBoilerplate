@@ -101,6 +101,12 @@
       "config": {
         "root": "./dist/client"
       }
+    },
+    "watch": {
+      "taskName": "watch-client",
+      "config": {
+        "source": "./client"
+      }
     }
   },
   "server": {
@@ -132,6 +138,12 @@
       "taskName": "start-server",
       "config": {
         "root": "./dist/server"
+      }
+    },
+    "watch": {
+      "taskName": "watch-server",
+      "config": {
+        "source": "./server"
       }
     }
   }
