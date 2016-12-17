@@ -12,7 +12,7 @@ module.exports = function(gulp, plugins, config) {
         browserSync.init(null, {
           proxy: "http://localhost:9000",
           port: 7000,
-          files: [config.source + "/**/*.*"]
+          files: [config.root + "/**/*.*"]
         });
       }
     };

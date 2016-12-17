@@ -1,10 +1,10 @@
 'use strict';
 
-var path = require('path');
-
 module.exports = function(gulp, plugins, config) {
   return function() {
-    var componentManager = require("../source/componentManager")(gulp, plugins, "source/components");
-    return componentManager.buildServer();
+    return gulp.src(config.source)
+      .pipe(gulp.dest(config.destination))
+      .pipe(plugins.install({ production: true }))
+      .pipe(gulp.dest(config.destination));
   };
 };

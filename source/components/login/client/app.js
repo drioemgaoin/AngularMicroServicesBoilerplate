@@ -8,7 +8,7 @@ angular.module('app', ['ngResource', 'ngMessages', 'ngAnimate', "ui.router", "sa
     });
     /* endinject */
 
-    $urlRouterProvider.otherwise
+    $urlRouterProvider.otherwise('/');
 
     $authProvider.facebook({
       clientId: '212322639214701'

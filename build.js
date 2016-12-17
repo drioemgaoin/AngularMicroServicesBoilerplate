@@ -275,7 +275,10 @@ module.exports = function(gulp, plugins) {
     buildServer: function(cb) {
       return runSequence(
         'clean-server',
-        'build-internal-scripts-server',
+        [
+          'build-internal-scripts-server',
+          'build-server-server'
+        ],
         cb
       );
     },

@@ -9,7 +9,7 @@ var mainDedupe = require('../gulp-main-dedupe');
 module.exports = function(gulp, plugins, config) {
     return function() {
 
-      function getSources(root) {
+      function getBowerSources(root) {
         if (root instanceof Array) {
           return root
             .map(function(source) {
@@ -28,14 +28,29 @@ module.exports = function(gulp, plugins, config) {
             }), { base: './' });
       };
 
-      var sources = getSources(config.source);
+      function getNpmSources(root) {
+        if (root instanceof Array) {
+          return root
+            .map(function(source) {
+              return gulp.src(plugins.mainNpmFiles({
+                nodeModulesPath: source.replace("./", "../") + "/node_modules",
+                packageJsonPath: source.replace("./", "../") + "/package.json"
+              }), { base: './' });
+            });
+        }
+
+        return gulp.src(plugins.mainNpmFiles({
+          nodeModulesPath: root.replace("./", "../")+ "/node_modules",
+          packageJsonPath: root.replace("./", "../") + "/package.json"
+        }), { base: './' });
+      }
+
+      var bowerSources = getBowerSources(config.source);
+      var npmSources = getNpmSources(config.npm.source);
       return mergeStream(
-        (sources instanceof Array ? mergeStream(sources) : sources),
-        gulp.src(plugins.mainNpmFiles({
-          nodeModulesPath: "../node_modules",
-          packageJsonPath: "../package.json"
-        }), { base: './' })
-        .pipe(plugins.filter(["**/satellizer.js", "**/toastr.js"]))
+        (bowerSources instanceof Array ? mergeStream(bowerSources) : bowerSources),
+        (npmSources instanceof Array ? mergeStream(npmSources) : npmSources)
+          .pipe(plugins.filter(["**/satellizer.js", "**/toastr.js"]))
       )
       .pipe(plugins.if(argv.production, plugins.uglify()))
       .pipe(plugins.flatten())
@@ -50,6 +65,5 @@ module.exports = function(gulp, plugins, config) {
       )
       .pipe(plugins.concat(config.fileName))
       .pipe(gulp.dest(config.destination));
-
     };
 };

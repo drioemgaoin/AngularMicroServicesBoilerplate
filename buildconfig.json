@@ -60,7 +60,10 @@
           "config": {
             "fileName": "vendor.js",
             "source": "./",
-            "destination": "./dist/client/scripts"
+            "destination": "./dist/client/scripts",
+            "npm": {
+              "source": "./"
+            }
           }
         }
       },
@@ -98,7 +101,7 @@
     "start": {
       "taskName": "start-client",
       "config": {
-        "source": "./dist/client"
+        "root": "./dist/client"
       }
     }
   },
@@ -114,10 +117,20 @@
         "internal": {
           "taskName": "build-internal-scripts"
         }
+      },
+      "npm": {
+        "taskName": "build-server",
+        "config": {
+          "source": "./package.json",
+          "destination": "./dist/server"
+        }
       }
     },
     "start": {
-      "taskName": "start-server"
+      "taskName": "start-server",
+      "config": {
+        "root": "./dist/server"
+      }
     }
   }
 }
