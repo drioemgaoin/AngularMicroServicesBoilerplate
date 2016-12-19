@@ -24,6 +24,7 @@
     "gulp-concat": "^2.6.1",
     "gulp-connect": "^5.0.0",
     "gulp-csso": "^2.0.0",
+    "gulp-debug": "3.0.0",
     "gulp-dedupe": "0.0.2",
     "gulp-empty": "0.1.1",
     "gulp-filter": "^4.0.0",

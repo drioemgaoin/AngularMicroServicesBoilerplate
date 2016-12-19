@@ -57,11 +57,21 @@
           "taskName": "build-external-scripts",
           "config": {
             "fileName": "vendor.js",
-            "source": "./",
             "destination": "./dist/client/scripts",
-            "npm": {
+            "bower": {
               "source": "./"
-            }
+            },
+            "npm": {
+              "source": "./",
+              "filter": ["**/satellizer.js", "**/toastr.js"]
+            },
+            "order": [
+              "jquery.js",
+              "jquery*.js",
+              "angular.js",
+              "angular*.js",
+              "*.js"
+            ]
           }
         }
       },

@@ -115,8 +115,7 @@ module.exports = function(gulp, plugins) {
         }
     }
     return target;
-}
-
+  }
 
   function merge(root, components, base) {
     var result = {};
