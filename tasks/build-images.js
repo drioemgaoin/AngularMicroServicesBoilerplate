@@ -1,24 +1,16 @@
 'use strict';
 
-var path = require('path');
-var mergeStream = require('merge-stream');
+var argv = require('yargs').argv;
+var buildHelper = require('../buildHelper')();
 
 module.exports = function(gulp, plugins, config) {
   return function() {
 
-    function getSources(root) {
-      if (root instanceof Array) {
-        return root
-          .map(function(source) {
-            return gulp.src(source);
-          });
-      }
+    var sources = buildHelper.getSources(gulp, config.source, function(root) {
+      return root;
+    });
 
-      return gulp.src(root);
-    };
-
-    var sources = getSources(config.source);
-    return (sources.length > 1 ? mergeStream(sources) : sources[0])
+    return sources
       .pipe(plugins.imagemin({
         optimizationLevel: 3,
         progessive: true,
@@ -26,7 +18,9 @@ module.exports = function(gulp, plugins, config) {
       }))
       .pipe(plugins.flatten())
       .pipe(plugins.mainDedupe({ same: false }))
+      .pipe(plugins.if(argv.debug, plugins.debug({ title: "build-images" })))
       .pipe(gulp.dest(config.destination))
       .pipe(plugins.size());
+
   };
 };
