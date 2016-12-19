@@ -7,7 +7,7 @@ var buildHelper = require('../buildHelper')();
 module.exports = function(gulp, plugins, config) {
   return function() {
 
-    var sources = buildHelper.getSources(gulp, config.source, function(root) {
+    var sources = buildHelper.getBowerNpmSources(gulp, config.source, function(root) {
       return mainBowerFiles({
         paths: root,
         filter: '**/*.{otf,eot,svg,ttf,woff,woff2}',

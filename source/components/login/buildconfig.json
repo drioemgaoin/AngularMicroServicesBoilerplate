@@ -43,8 +43,7 @@
             "fileName": "internal.js",
             "source": [
               "./client/**/*.js",
-              "!./client/routes/**/*.js",
-              "!./client/config.js"
+              "!./client/routes/**/*.js"
             ],
             "routes": {
               "source": "./client/routes/**/*.js",

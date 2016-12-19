@@ -8,16 +8,16 @@ var buildHelper = require('../buildHelper')();
 module.exports = function(gulp, plugins, config) {
   return function() {
 
-    var bowerSources = buildHelper.getSources(gulp, config.bower.source, function(root) {
-        return mainBowerFiles({
+    var bowerSources = buildHelper.getBowerNpmSources(gulp, config.bower.source, function(root) {
+      return mainBowerFiles({
           paths: root,
           filter: '**/*.js',
           overrides: config.bowerOverrides
         });
       }, { base: './' });
 
-    var npmSources = buildHelper.getSources(gulp, config.npm.source, function(root) {
-        return plugins.mainNpmFiles({
+    var npmSources = buildHelper.getBowerNpmSources(gulp, config.npm.source, function(root) {
+      return plugins.mainNpmFiles({
           nodeModulesPath: root.replace("./", "../") + "/node_modules",
           packageJsonPath: root.replace("./", "../") + "/package.json"
         });
