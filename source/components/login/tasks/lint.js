@@ -1,15 +1,16 @@
 'use strict';
 
-var path = require('path');
+var argv = require('yargs').argv;
+var buildHelper = require('../buildHelper')();
 
 module.exports = function(gulp, plugins, config) {
     return function() {
-      var sources = config.build.scripts.map(function(script) {
-        return script.replace("{0}", path.join(config.basePath, config.build.root));
+      var sources = buildHelper.getSources(gulp, config.source, function(root) {
+        return root;
       });
 
-      return gulp.src(sources)
-        .pipe(plugins.jshint(config.basePath + "/.jshintrc"))
-        .pipe(plugins.jshint.reporter('jshint-stylish'));
+      return sources
+      .pipe(plugins.jshint(config.path + "/.jshintrc"))
+      .pipe(plugins.jshint.reporter('jshint-stylish'));
     };
 };

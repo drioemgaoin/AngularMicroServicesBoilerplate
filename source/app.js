@@ -1,11 +1,9 @@
 'use strict';
 
+/* jshint unused:false */
 angular.module('app', ['ngResource', 'ngMessages', 'ngAnimate', "ui.router", "satellizer", "toastr"])
   .config(function($stateProvider, $urlRouterProvider, $authProvider, routeProvider) {
     /* inject:routes */
-    fs.readdirSync("./routes").forEach(function (file) {
-      require(file, require('./routes' + file))($stateProvider, routeProvider);
-    });
     /* endinject */
 
     $urlRouterProvider.otherwise('/');

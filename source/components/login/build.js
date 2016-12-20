@@ -35,6 +35,7 @@ module.exports = function(gulp, plugins) {
     buildClient: function(cb) {
       return runSequence(
         'clean-client',
+        'lint-client',
         [
           'build-views-client',
           'build-fonts-client',
@@ -51,6 +52,7 @@ module.exports = function(gulp, plugins) {
     buildServer: function(cb) {
       return runSequence(
         'clean-server',
+        'lint-server',
         [
           'build-internal-scripts-server',
           'build-server-server'

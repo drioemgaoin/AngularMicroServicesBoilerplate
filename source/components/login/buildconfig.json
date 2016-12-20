@@ -7,6 +7,13 @@
       }
     },
     "build": {
+      "lint": {
+        "taskName": "lint",
+        "config": {
+          "source": "./client/**/*.js",
+          "path": "./"
+        }
+      },
       "views": {
         "taskName": "build-views",
         "config": {
@@ -126,6 +133,13 @@
       }
     },
     "build": {
+      "lint": {
+        "taskName": "lint",
+        "config": {
+          "source": "./server/**/*.js",
+          "path": "./"
+        }
+      },
       "scripts": {
         "internal": {
           "taskName": "build-internal-scripts",

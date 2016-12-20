@@ -1,22 +1,16 @@
 'use strict';
 
-var mergeStream = require('merge-stream');
-var path = require('path');
+var argv = require('yargs').argv;
+var buildHelper = require('../buildHelper')();
 
 module.exports = function(gulp, plugins, config) {
     return function() {
-      var componentManager = require("../source/componentManager")(gulp, plugins, "source/components");
-
-      var sources = config.client.build.scripts.map(function(script) {
-        return script.replace("{0}", path.join(config.client.basePath, config.client.build.root));
+      var sources = buildHelper.getSources(gulp, config.source, function(root) {
+        return root;
       });
 
-      return mergeStream(
-        componentManager.lint('client'),
-        componentManager.lint('server'),
-        gulp.src(sources)
-          .pipe(plugins.jshint())
-          .pipe(plugins.jshint.reporter('jshint-stylish'))
-      );
+      return sources
+      .pipe(plugins.jshint(config.path + "/.jshintrc"))
+      .pipe(plugins.jshint.reporter('jshint-stylish'));
     };
 };
