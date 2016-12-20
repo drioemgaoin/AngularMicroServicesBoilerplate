@@ -7,15 +7,14 @@ The components available for this boilerplate are all component you can find on 
 
 # Installation
 To install this boilerplate, you need to follow the following steps:
+- Clone or download the project
+- Run ```npm install && bower install``` to install bower/npm dependencies
+- Run ```npm default``` to build and run the project
 
-Clone or download the project
-Run npm install && bower install to install bower/npm dependencies
-Run npm default to build and run the project
 There are 3 ways to build and run the project:
-
-npm default: build the project without minifying. Use it for development version.
-npm default --production: build the project with minifying. Use it for production version.
-npm default --debug: build the project with debugging. Use it when you want to check which files are used during each step of the build process.
+- ```gulp default```: build the project without minifying. Use it for development version.
+- ```gulp default --production```: build the project with minifying. Use it for production version.
+- ```gulp default --debug```: build the project with debugging. Use it when you want to check which files are used during each step of the build process.
 
 To add a component to this boilerplate, you can read its README ("Installation inside AngularMicroServicesBoilerplate" paragraph).
 

@@ -10,9 +10,9 @@ To install this component, you need to follow the following steps:
 - Run ```npm default``` to build and run the project
 
 There are 3 ways to build and run the project:
-- ```npm default```: build the project without minifying. Use it for development version.
-- ```npm default --production```: build the project with minifying. Use it for production version.
-- ```npm default --debug```: build the project with debugging. Use it when you want to check which files are used during each step of the build process.
+- ```gulp default```: build the project without minifying. Use it for development version.
+- ```gulp default --production```: build the project with minifying. Use it for production version.
+- ```gulp default --debug```: build the project with debugging. Use it when you want to check which files are used during each step of the build process.
 
 # Installation inside AngularMicroServicesBoilerplate
 This component can be integrated in the angular boilerplate called AngularMicroServicesBoilerplate. For that, you need to follow the following steps:
