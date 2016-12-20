@@ -13,6 +13,7 @@ module.exports = function(gulp, plugins, config) {
     var routeSources = buildHelper.getSources(gulp, config.routes.source, function(root) {
         return root;
       })
+      .pipe(plugins.sort(buildHelper.sort(/components/, false)))
       .pipe(plugins.mainDedupe({ same: false, fullPath: false }))
       .pipe(plugins.if(argv.debug, plugins.debug({ title: "inject-routes" })));
 
