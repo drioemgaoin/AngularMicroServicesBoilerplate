@@ -14,7 +14,7 @@ There are 3 ways to build and run the project:
 - ```npm default --production```: build the project with minifying. Use it for production version.
 - ```npm default --debug```: build the project with debugging. Use it when you want to check which files are used during each step of the build process.
 
-# Installation inside AngularMicroServicesBoilerplate
+# ``
 This component can be integrated in the angular boilerplate called AngularMicroServicesBoilerplate. For that, you need to follow the following steps:
 - Create a subdirectory in the /source/components/ directory. It is recommended to choose the name of the component you want to use for a better understanding.
 
