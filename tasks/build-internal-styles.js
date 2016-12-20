@@ -3,25 +3,19 @@
 var argv = require('yargs').argv;
 var path = require('path');
 var mergeStream = require('merge-stream');
+var buildHelper = require('../buildHelper')();
 
 module.exports = function(gulp, plugins, config) {
-    return function() {
-      function getSources(root) {
-        if (root instanceof Array) {
-          return root
-            .map(function(source) {
-              return gulp.src(source);
-            });
-        }
+  return function() {
+    var sources = buildHelper.getSources(gulp, config.source, function(root) {
+      return root;
+    });
 
-        return gulp.src(root);
-      };
-
-      var sources = getSources(config.source);
-      return (sources instanceof Array ? mergeStream(sources) : sources)
-        .pipe(plugins.sass())
-        .pipe(plugins.if(argv.production, plugins.csso()))
-        .pipe(plugins.flatten())
-        .pipe(gulp.dest(config.destination));
-    };
+    return sources
+      .pipe(plugins.sass())
+      .pipe(plugins.if(argv.production, plugins.csso()))
+      .pipe(plugins.flatten())
+      .pipe(plugins.if(argv.debug, plugins.debug({ title: "build-internal-styles" })))
+      .pipe(gulp.dest(config.destination));
+  };
 };
