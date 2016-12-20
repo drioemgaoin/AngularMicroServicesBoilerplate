@@ -237,10 +237,16 @@ module.exports = function(gulp, plugins) {
 
         var rootConfig = merge(root[key].config, componentConfigs);
 
+        var core = gulp.empty;
+        if (root[key].config || componentConfigs.length > 0) {
+          core = require("./tasks/" + root[key].taskName)(gulp, plugins, rootConfig);
+        }
+
         tasks.push({
           name: root[key].taskName + "-" + target,
-          core: require("./tasks/" + root[key].taskName)(gulp, plugins, rootConfig)
+          core: core
         });
+
       } else {
         initialize(root[key], options, target);
       }

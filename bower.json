@@ -18,6 +18,8 @@
     "angular": "^1.5.9",
     "flexbox": "*",
     "font-awesome": "fontawesome#^4.7.0",
-    "angular-animate": "^1.6.0"
-  }
+    "angular-animate": "^1.6.0",
+    "angular-ui-router": "^0.3.2"
+  },
+  "devDependencies": {}
 }
