@@ -26,3 +26,8 @@ From there, you need to follow the 3 steps mentioned in the Installation paragra
 
 # Credits
 [Sahat Yalkabov](https://github.com/sahat/) for [Satellizer](https://github.com/sahat/satellizer)
+
+# Comments
+Don't hesitate to send me any recommendations, suggestions about this component. I really want to have some returns about does it work well, does it match user expectation, etc.
+
+You can send me any issues you want or contact me to my github email and put the repository name in the subject.

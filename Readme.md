@@ -80,3 +80,8 @@ To build an run correctly the boilerplate and the components, several tasks have
 - **watch-client**: watch all client file(s) and call the appropriate gulp task(s).
 
 - **watch-server**: watch all server file(s) and call the appropriate gulp task(s).
+
+# Comments
+Don't hesitate to send me any recommendations, suggestions about this boilerplate. I really want to have some returns about does it work well, does it match user expectation, etc.
+
+You can send me any issues you want or contact me to my github email and put the repository name in the subject.
