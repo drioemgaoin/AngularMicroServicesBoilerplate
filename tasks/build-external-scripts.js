@@ -25,12 +25,12 @@ module.exports = function(gulp, plugins, config) {
       .pipe(plugins.filter(config.npm.filter));
 
     return mergeStream(bowerSources, npmSources)
-    .pipe(plugins.if(argv.production, plugins.uglify()))
     .pipe(plugins.flatten())
     .pipe(plugins.mainDedupe({ same: false }))
     .pipe(plugins.order(config.order))
     .pipe(plugins.if(argv.debug, plugins.debug({ title: "build-external-scripts" })))
     .pipe(plugins.concat(config.fileName))
+    .pipe(plugins.if(argv.production, plugins.uglify({ mangle: false })))
     .pipe(gulp.dest(config.destination));
 
   };

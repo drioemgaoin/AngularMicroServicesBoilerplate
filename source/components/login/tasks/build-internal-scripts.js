@@ -25,6 +25,7 @@ module.exports = function(gulp, plugins, config) {
       .pipe(plugins.sort(buildHelper.sort(/app.js$/)))
       .pipe(plugins.if(argv.debug, plugins.debug({ title: "build-internal-scripts" })))
       .pipe(plugins.ifElse(config.fileName, function() { return plugins.concat(config.fileName); }))
+      .pipe(plugins.if(argv.production, plugins.uglify({ mangle: false })))
       .pipe(gulp.dest(config.destination));
 
   };
