@@ -15,7 +15,7 @@ module.exports = function() {
       var flattenRoot = root instanceof Array
         ? _.flattenDeep(root)
         : root;
-        
+
       if (flattenRoot instanceof Array) {
         var sources = flattenRoot
           .map(function(source) {
@@ -37,18 +37,18 @@ module.exports = function() {
 
       return gulp.src(globs(root), options);
     },
-    // getSources: function(gulp, root, globs, options) {
-    //   return gulp.src(globs(root), options);
-    // },
     sort: function(pattern, ascendant) {
       return {
         comparator: function(file1, file2) {
-          ascendant = ascendant || true;
+          ascendant = ascendant !== undefined ? ascendant : true;
           if (pattern.test(file1.path)) { return ascendant ? -1 : 1; }
           if (pattern.test(file2.path)) { return ascendant ? 1 : -1; }
           return 0;
         }
       };
+    },
+    isMainView: function(file) {
+      return file.path.endsWith("/views/index.html");
     }
   };
 }

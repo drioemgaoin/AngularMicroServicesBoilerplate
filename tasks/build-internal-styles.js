@@ -1,8 +1,6 @@
 'use strict';
 
 var argv = require('yargs').argv;
-var path = require('path');
-var mergeStream = require('merge-stream');
 var buildHelper = require('../buildHelper')();
 
 module.exports = function(gulp, plugins, config) {

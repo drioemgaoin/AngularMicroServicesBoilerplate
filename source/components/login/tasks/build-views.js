@@ -1,29 +1,21 @@
 'use strict';
 
-var path = require('path');
-var mergeStream = require('merge-stream');
+var argv = require('yargs').argv;
+var buildHelper = require('../buildHelper')();
 
 module.exports = function(gulp, plugins, config) {
   return function() {
-    var isMainPage = function (file) {
-        return file.path.endsWith("/views/index.html");
-    };
+    var sources = buildHelper.getSources(gulp, config.source, function(root) {
+      return root;
+    });
 
-    function getSources(root) {
-      if (root instanceof Array) {
-        return root
-          .map(function(source) {
-            return gulp.src(source);
-          });
-      }
-
-      return gulp.src(root);
-    };
-
-    var sources = getSources(config.source);
-    return (sources instanceof Array ? mergeStream(sources) : sources)
-        .pipe(plugins.flatten())
-        .pipe(plugins.mainDedupe({ fullpath: false, same: false }))
-        .pipe(plugins.if(isMainPage, gulp.dest(config.destination.main), gulp.dest(config.destination.other)));
+    return sources
+      .pipe(plugins.sort(buildHelper.sort(/components/)))
+      .pipe(plugins.flatten())
+      .pipe(plugins.mainDedupe({ fullpath: false, same: false }))
+      .pipe(plugins.if(argv.debug, plugins.debug({ title: "build-views" })))
+      .pipe(plugins.if(buildHelper.isMainView,
+        gulp.dest(config.destination.main),
+        gulp.dest(config.destination.other)));
   };
 };

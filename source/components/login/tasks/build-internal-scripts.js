@@ -20,7 +20,7 @@ module.exports = function(gulp, plugins, config) {
       .pipe(appFilter)
       .pipe(plugins.if(config.routes, injectRoutes()))
       .pipe(appFilter.restore)
-      .pipe(plugins.sort(buildHelper.sort(/[^components]/)))
+      .pipe(plugins.sort(buildHelper.sort(/components/, false)))
       .pipe(plugins.mainDedupe({ same: false, fullPath: false }))
       .pipe(plugins.sort(buildHelper.sort(/app.js$/)))
       .pipe(plugins.if(argv.debug, plugins.debug({ title: "build-internal-scripts" })))
