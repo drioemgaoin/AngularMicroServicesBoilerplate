@@ -14,6 +14,10 @@ gulp.task('start-client', build.startClient);
 gulp.task('start-server', build.startServer);
 gulp.task('start', ['start-server', 'start-client']);
 
+gulp.task('add', function(done) {
+  require("./tasks/add-component")(gulp, plugins)(done); 
+});
+
 gulp.task('default', function() {
     runSequence("build", "start");
 });

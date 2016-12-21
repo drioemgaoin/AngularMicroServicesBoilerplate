@@ -9,7 +9,10 @@ module.exports = function(gulp, plugins, config, options) {
 
     var sources = buildHelper.getBowerNpmSources(gulp, config.source, function(root) {
       return mainBowerFiles({
-        paths: root,
+        paths: {
+          bowerDirectory: './bower_components',
+          bowerJson: root + 'bower.json'
+        },
         filter: '**/*.{css,scss}',
         overrides: config.bowerOverrides
       });

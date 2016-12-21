@@ -10,7 +10,10 @@ module.exports = function(gulp, plugins, config) {
 
     var bowerSources = buildHelper.getBowerNpmSources(gulp, config.bower.source, function(root) {
       return mainBowerFiles({
-          paths: root,
+          paths: {
+            bowerDirectory: './bower_components',
+            bowerJson: root + 'bower.json'
+          },
           filter: '**/*.js',
           overrides: config.bowerOverrides
         });
@@ -18,7 +21,7 @@ module.exports = function(gulp, plugins, config) {
 
     var npmSources = buildHelper.getBowerNpmSources(gulp, config.npm.source, function(root) {
       return plugins.mainNpmFiles({
-          nodeModulesPath: root.replace("./", "../") + "/node_modules",
+          nodeModulesPath: "../node_modules",
           packageJsonPath: root.replace("./", "../") + "/package.json"
         });
       }, { base: './' })

@@ -264,16 +264,16 @@ module.exports = function(gulp, plugins) {
     buildClient: function(cb) {
       return runSequence(
         'clean-client',
-        'lint-client',
-        [
-          'build-views-client',
-          'build-fonts-client',
-          'build-images-client',
-          'build-internal-scripts-client',
-          'build-internal-styles-client',
+        // 'lint-client',
+        // [
+        //   'build-views-client',
+          // 'build-fonts-client',
+        //   'build-images-client',
+        //   'build-internal-scripts-client',
+        //   'build-internal-styles-client',
           'build-external-scripts-client',
-          'build-external-styles-client'
-        ],
+        //   'build-external-styles-client'
+        // ],
         "inject-client",
         cb
       );
@@ -281,11 +281,11 @@ module.exports = function(gulp, plugins) {
     buildServer: function(cb) {
       return runSequence(
         'clean-server',
-        'lint-server',
-        [
-          'build-internal-scripts-server',
-          'build-server-server'
-        ],
+        // 'lint-server',
+        // [
+        //   'build-internal-scripts-server',
+        //   'build-server-server'
+        // ],
         cb
       );
     },
