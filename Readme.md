@@ -16,7 +16,15 @@ There are 3 ways to build and run the project:
 - ```gulp default --production```: build the project with minifying. Use it for production version.
 - ```gulp default --debug```: build the project with debugging. Use it when you want to check which files are used during each step of the build process.
 
-To add a component to this boilerplate, you can read its README ("Installation inside AngularMicroServicesBoilerplate" paragraph).
+To add a component to this boilerplate, you need to run the gulp tasks
+```
+gulp add --url https://github.com/drioemgaoin/AngularLoginComponent.git --target login
+```
+ The parameter **url** is the git url of the component you want to add to your project.
+
+The parameter **target** is the name of the directory the component will be copy into.
+
+Following the component you re copying, some manual step(s) can be needed. To know that, read the README of the component you re trying to add.
 
 # How it works?
 This boilerplate and all angular components are built and started by using the same gulp tasks.
