@@ -51,12 +51,17 @@
             "source": [
               "./source/**/*.js",
               "!./source/routes/**/*.js",
+              "!./source/configs/**/*.js",
               "!./source/config.js",
               "!./source/componentManager.js",
               "!./source/components/**/*.*"
             ],
             "routes": {
               "source": ["./source/routes/**/*.js" , "!./source/component/**/*.*"],
+              "destination": "./source/app.js"
+            },
+            "configs": {
+              "source": ["./source/configs/**/*.js" , "!./source/component/**/*.*"],
               "destination": "./source/app.js"
             },
             "destination": "./dist/client/scripts"

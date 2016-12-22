@@ -6,5 +6,8 @@ angular.module('app', ['ngAnimate', "ui.router"])
     /* inject:routes */
     /* endinject */
 
+    /* inject:configs */
+    /* endinject */
+
     $urlRouterProvider.otherwise('/');
   });
