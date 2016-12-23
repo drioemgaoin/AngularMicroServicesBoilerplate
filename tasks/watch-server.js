@@ -16,7 +16,10 @@ module.exports = function(gulp, plugins, config) {
       };
 
       function watch(source) {
-        gulp.watch(getSources(source + "/**/*.*"), ['build-server-server']);
+        gulp.watch(getSources(source + "/**/", "*.*"), [
+          'build-internal-scripts-server',
+          'build-server-server'
+        ]);
       };
 
       if (!argv.production) {
